@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
-    <title>Welcome to my blog ･◡･</title>
-    <link>https://zevorn.github.io/blog/</link>
-    <description>Recent content on Welcome to my blog ･◡･</description>
+    <title>Themes on Welcome to my blog ･◡･</title>
+    <link>https://zevorn.github.io/blog/categories/themes/</link>
+    <description>Recent content in Themes on Welcome to my blog ･◡･</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
     <copyright>zevorn (CC BY 4.0)</copyright>
     <lastBuildDate>Sun, 10 Mar 2024 00:00:00 +0000</lastBuildDate>
-    <atom:link href="https://zevorn.github.io/blog/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://zevorn.github.io/blog/categories/themes/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>QEMU学习实况（零）· 千里之行始于足下</title>
       <link>https://zevorn.github.io/blog/blogs/qemu-learn-how-build/</link>
