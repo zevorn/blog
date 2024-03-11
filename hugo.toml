@@ -1,43 +1,72 @@
-baseURL = 'https://zevorn.github.io/blog/'
-languageCode = 'en-us'
-title = 'Welcome to my blog ･◡･'
-theme = "hugo-bearcub"
-copyright = "zevorn (CC BY 4.0)"
-
+baseURL = "https://zevorn.github.io/blog/"
+languageCode = "en"
 defaultContentLanguage = "en"
+title = "📖"                        # site title                     # 网站标题
+theme = "zozo"
+hasCJKLanguage = true                  # has chinese/japanese/korean ?  # 自动检测是否包含 中文\日文\韩文
+summaryLength = 100
+paginate = 4                           # shows the number of articles   # 首页显示文章数量
+enableEmoji = true
+googleAnalytics = ""                   # your google analytics id       # Google统计代码
+disqusShortname = ""                   # your discuss shortname         # Disqus评论系统代码
 
-# Generate a nice robots.txt for SEO
-enableRobotsTXT = true
+pygmentsUseClasses = true
+pygmentCodeFences = true
+pygmentscodefencesguesssyntax = true
 
-hideUntranslated = false
 
-# Setup syntax highlighting without inline styles. For more information about
-# why you'd want to avoid inline styles, see
-# https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/style-src#unsafe_inline_styles
-[markup]
-  [markup.highlight]
-    lineNos = true
-    lineNumbersInTable = false
-    # This allows Bear Cub to use a variation of Dracula that is more accessible
-    # to people with poor eyesight. For more information about color contrast
-    # and accessibility, see https://web.dev/color-and-contrast-accessibility/
-    noClasses = false
+[blackfriday]
+  smartypants = true
 
-[languages]
-  [languages.en]
-    title = "Welcome to my blog ･◡･"
-    languageName = "en-US 🇺🇸"
-    LanguageCode = "en-US"
-    contentDir = "content"
-    [languages.en.params]
-      madeWith = "Made with [Bear Cub](https://github.com/clente/hugo-bearcub)"
+[[menu.main]]                          # config your menu               # 配置菜单
+  name = " 主页"
+  weight = 10
+  identifier = "home"
+  url = "/"
+[[menu.main]]
+  name = "文章"
+  weight = 20
+  identifier = "archive"
+  url = "/posts/"
+[[menu.main]]
+  name = "标签"
+  weight = 30
+  identifier = "tags"
+  url = "/tags/"
+[[menu.main]]
+  name = "关于我"
+  weight = 40
+  identifier = "about"
+  url = "/about/"
 
 [params]
-  # The description of your website
-  description = "zevorn's blog"
+  subTitle = "泽文的博客"       # site's subTitle              # 网站二级标题
+  keywords = ["zevorn","hugo","blog"]        # site's keywords             # 网站关键字
+  description = "zevorn's blog"              # site's description          # 网站描述
+  enableMathJax = true                       # enable mathjax              # 是否使用 mathjax（数学公式）
+  enableSummary = true                       # display the article summary # 是否显示文章摘要
+  mainSections = ["posts"]
 
-  # (EXPERIMENTAL) This theme has two options for its CSS styles: "original" and
-  # "herman". The former is what you see on Bear Cub's demo (an optimized
-  # version of Hugo Bear Blog), while the latter has a more modern look based on
-  # Herman Martinus's version of the Blogster Minimal theme for Astro.
-  themeStyle = "original"
+# Valine.
+# You can get your appid and appkey from https://leancloud.cn
+# more info please open https://valine.js.org
+[params.valine]
+  enable = false
+  appId = ""
+  appKey = ""
+  placeholder = " "
+  visitor = true
+
+[params.author]           # essential        # 必需
+  name = "zevorn"
+
+# Your socail's url
+# 社交地址配置
+[social]
+  github = "https://github.com/zevorn"
+  bilibili = "https://space.bilibili.com/483048140"
+
+[markup]
+[markup.goldmark]
+[markup.goldmark.renderer]
+  unsafe = true

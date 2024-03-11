@@ -3,29 +3,27 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://zevorn.github.io/blog/</loc>
-    <lastmod>2024-03-10T00:00:00+00:00</lastmod>
+    <lastmod>2024-03-11T20:24:28+08:00</lastmod>
   </url><url>
-    <loc>https://zevorn.github.io/blog/blogs/</loc>
-    <lastmod>2024-03-10T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://zevorn.github.io/blog/projects/</loc>
+    <loc>https://zevorn.github.io/blog/about/</loc>
+    <lastmod>2024-03-11T20:24:28+08:00</lastmod>
   </url><url>
     <loc>https://zevorn.github.io/blog/categories/</loc>
+    <lastmod>2024-03-10T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://zevorn.github.io/blog/posts/</loc>
     <lastmod>2024-03-10T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://zevorn.github.io/blog/tags/qemu/</loc>
     <lastmod>2024-03-10T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://zevorn.github.io/blog/blogs/qemu-learn-how-build/</loc>
-    <lastmod>2024-03-10T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://zevorn.github.io/blog/categories/syntax/</loc>
+    <loc>https://zevorn.github.io/blog/posts/qemu-learn-how-build/</loc>
     <lastmod>2024-03-10T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://zevorn.github.io/blog/tags/</loc>
     <lastmod>2024-03-10T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://zevorn.github.io/blog/categories/themes/</loc>
+    <loc>https://zevorn.github.io/blog/categories/%E7%AC%94%E8%AE%B0/</loc>
     <lastmod>2024-03-10T00:00:00+00:00</lastmod>
   </url>
 </urlset>

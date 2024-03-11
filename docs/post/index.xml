@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>QEMU on 📖</title>
-    <link>https://zevorn.github.io/blog/tags/qemu/</link>
-    <description>Recent content in QEMU on 📖</description>
+    <title>Posts on BLOG</title>
+    <link>https://zevorn.github.io/blog/post/</link>
+    <description>Recent content in Posts on BLOG</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <lastBuildDate>Sun, 10 Mar 2024 00:00:00 +0000</lastBuildDate>
-    <atom:link href="https://zevorn.github.io/blog/tags/qemu/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://zevorn.github.io/blog/post/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>QEMU 学习实况（零）· 千里之行始于足下</title>
-      <link>https://zevorn.github.io/blog/posts/qemu-learn-how-build/</link>
+      <link>https://zevorn.github.io/blog/post/qemu-learn-how-build/</link>
       <pubDate>Sun, 10 Mar 2024 00:00:00 +0000</pubDate>
-      <guid>https://zevorn.github.io/blog/posts/qemu-learn-how-build/</guid>
+      <guid>https://zevorn.github.io/blog/post/qemu-learn-how-build/</guid>
       <description>参照 QEMU Downland 主要遇到的问题，大部分是缺少依赖的软件包或者库，基本依赖如下： build-essential python3-pip python-is-python3 ninja-build pkg-config libglib2.0-dev libpixman-1-dev 不同的操作系统，安装命令可能不太一样。如果安装了以上的库，还会编译出错，请自行解决，或者编译的时候，遇到缺啥，就安装</description>
     </item>
   </channel>

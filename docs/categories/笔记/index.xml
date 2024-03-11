@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>QEMU on 📖</title>
-    <link>https://zevorn.github.io/blog/tags/qemu/</link>
-    <description>Recent content in QEMU on 📖</description>
+    <title>笔记 on 📖</title>
+    <link>https://zevorn.github.io/blog/categories/%E7%AC%94%E8%AE%B0/</link>
+    <description>Recent content in 笔记 on 📖</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <lastBuildDate>Sun, 10 Mar 2024 00:00:00 +0000</lastBuildDate>
-    <atom:link href="https://zevorn.github.io/blog/tags/qemu/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://zevorn.github.io/blog/categories/%E7%AC%94%E8%AE%B0/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>QEMU 学习实况（零）· 千里之行始于足下</title>
       <link>https://zevorn.github.io/blog/posts/qemu-learn-how-build/</link>

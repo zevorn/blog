@@ -1,20 +1,17 @@
 +++
 author = "zevorn"
-title = "QEMU学习实况（零）· 千里之行始于足下"
+title = "QEMU 学习实况（零）· 千里之行始于足下"
 date = "2024-03-10"
-description = "搭建QEMU开发环境"
+description = "搭建 QEMU 开发环境。"
 tags = [
     "QEMU",
 ]
 categories = [
-    "themes",
-    "syntax",
+    "笔记",
 ]
-series = ["Themes Guide"]
-aliases = ["migrate-from-jekyl"]
 +++
 
-参照 QEMU 下载页面 [QEMU Downland](https://www.qemu.org/download/)
+参照 [QEMU Downland](https://www.qemu.org/download/)
 
 主要遇到的问题，大部分是缺少依赖的软件包或者库，基本依赖如下：
 

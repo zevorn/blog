@@ -1,94 +1,26 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Welcome to my blog ･◡･</title>
+    <title>📖</title>
     <link>https://zevorn.github.io/blog/</link>
-    <description>Recent content on Welcome to my blog ･◡･</description>
+    <description>Recent content on 📖</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en-US</language>
-    <copyright>zevorn (CC BY 4.0)</copyright>
-    <lastBuildDate>Sun, 10 Mar 2024 00:00:00 +0000</lastBuildDate>
+    <language>en</language>
+    <lastBuildDate>Mon, 11 Mar 2024 20:24:28 +0800</lastBuildDate>
     <atom:link href="https://zevorn.github.io/blog/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>QEMU学习实况（零）· 千里之行始于足下</title>
-      <link>https://zevorn.github.io/blog/blogs/qemu-learn-how-build/</link>
+      <title>随便聊聊(*￣︶￣)</title>
+      <link>https://zevorn.github.io/blog/about/</link>
+      <pubDate>Mon, 11 Mar 2024 20:24:28 +0800</pubDate>
+      <guid>https://zevorn.github.io/blog/about/</guid>
+      <description>热爱写作，喜欢猫咪。 还没有想到怎么介绍自己，暂且如此。</description>
+    </item>
+    <item>
+      <title>QEMU 学习实况（零）· 千里之行始于足下</title>
+      <link>https://zevorn.github.io/blog/posts/qemu-learn-how-build/</link>
       <pubDate>Sun, 10 Mar 2024 00:00:00 +0000</pubDate>
-      <guid>https://zevorn.github.io/blog/blogs/qemu-learn-how-build/</guid>
-      <description>参照 QEMU 下载页面 QEMU Downland&#xA;主要遇到的问题，大部分是缺少依赖的软件包或者库，基本依赖如下：&#xA;1build-essential python3-pip python-is-python3 2ninja-build pkg-config libglib2.0-dev libpixman-1-dev不同的操作系统，安装命令可能不太一样。如果安装了以上的库，还会编译出错，请自行解决，或者编译的时候，遇到缺啥，就安装啥。&#xA;QEMU 学习资料 查阅社区邮件 QEMU 源码分析博客 configure 常用命令解析 输入下面的命令，可以了解 configure 的各个编译选项：&#xA;1./configure --help不过 QEMU 的编译选项太多了，命令行不太好查看，一般我们只需要编译自己需要的部分即可，我主要想模拟 RISCV 架构的处理器，并且也不需要 KVM 之类的功能，那么我可以这样修改命令：&#xA;1./configure --help &amp;gt; info.log使用编辑器查看，可以找到这个选项和我们诉求是相关的：&#xA;1 --target-list=LIST set target list (default: build all) 2 Available targets: aarch64-softmmu alpha-softmmu 3 arm-softmmu avr-softmmu cris-softmmu hppa-softmmu 4 i386-softmmu loongarch64-softmmu m68k-softmmu 5 microblaze-softmmu microblazeel-softmmu mips-softmmu 6 mips64-softmmu mips64el-softmmu mipsel-softmmu 7 nios2-softmmu or1k-softmmu ppc-softmmu ppc64-softmmu 8 riscv32-softmmu riscv64-softmmu rx-softmmu 9 s390x-softmmu sh4-softmmu sh4eb-softmmu 10 sparc-softmmu sparc64-softmmu tricore-softmmu 11 x86_64-softmmu xtensa-softmmu xtensaeb-softmmu 12 aarch64-linux-user aarch64_be-linux-user 13 alpha-linux-user arm-linux-user armeb-linux-user 14 cris-linux-user hexagon-linux-user hppa-linux-user 15 i386-linux-user loongarch64-linux-user 16 m68k-linux-user microblaze-linux-user 17 microblazeel-linux-user mips-linux-user 18 mips64-linux-user mips64el-linux-user 19 mipsel-linux-user mipsn32-linux-user 20 mipsn32el-linux-user nios2-linux-user 21 or1k-linux-user ppc-linux-user ppc64-linux-user 22 ppc64le-linux-user riscv32-linux-user 23 riscv64-linux-user s390x-linux-user sh4-linux-user 24 sh4eb-linux-user sparc-linux-user 25 sparc32plus-linux-user sparc64-linux-user 26 x86_64-linux-user xtensa-linux-user 27 xtensaeb-linux-user 28 --target-list-exclude=LIST exclude a set of targets from the default target-list除此之外，我还要关注一下，是否有编译 Debug 版本，也就是带有调试信息的编译选项：</description>
-      <content:encoded><![CDATA[<p>参照 QEMU 下载页面 <a href="https://www.qemu.org/download/">QEMU Downland</a></p>
-<p>主要遇到的问题，大部分是缺少依赖的软件包或者库，基本依赖如下：</p>
-
-
-
-
-
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="ln">1</span><span class="cl">build-essential python3-pip python-is-python3
-</span></span><span class="line"><span class="ln">2</span><span class="cl">ninja-build pkg-config libglib2.0-dev libpixman-1-dev</span></span></code></pre></div><p>不同的操作系统，安装命令可能不太一样。如果安装了以上的库，还会编译出错，请自行解决，或者编译的时候，遇到缺啥，就安装啥。</p>
-<h1 id="qemu-学习资料">QEMU 学习资料</h1>
-<ol>
-<li><a href="https://lists.gnu.org/archive/html/qemu-devel/">查阅社区邮件</a></li>
-<li><a href="https://myriad-dreamin.github.io/qemu-book/#/README">QEMU 源码分析博客</a></li>
-</ol>
-<h3 id="configure-常用命令解析">configure 常用命令解析</h3>
-<p>输入下面的命令，可以了解 configure 的各个编译选项：</p>
-
-
-
-
-
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="ln">1</span><span class="cl">./configure --help</span></span></code></pre></div><p>不过 QEMU 的编译选项太多了，命令行不太好查看，一般我们只需要编译自己需要的部分即可，我主要想模拟 RISCV 架构的处理器，并且也不需要 KVM 之类的功能，那么我可以这样修改命令：</p>
-
-
-
-
-
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="ln">1</span><span class="cl">./configure --help &gt; info.log</span></span></code></pre></div><p>使用编辑器查看，可以找到这个选项和我们诉求是相关的：</p>
-
-
-
-
-
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="ln"> 1</span><span class="cl">  --target-list<span class="o">=</span>LIST       <span class="nb">set</span> target list <span class="o">(</span>default: build all<span class="o">)</span>
-</span></span><span class="line"><span class="ln"> 2</span><span class="cl">                           Available targets: aarch64-softmmu alpha-softmmu
-</span></span><span class="line"><span class="ln"> 3</span><span class="cl">                           arm-softmmu avr-softmmu cris-softmmu hppa-softmmu
-</span></span><span class="line"><span class="ln"> 4</span><span class="cl">                           i386-softmmu loongarch64-softmmu m68k-softmmu
-</span></span><span class="line"><span class="ln"> 5</span><span class="cl">                           microblaze-softmmu microblazeel-softmmu mips-softmmu
-</span></span><span class="line"><span class="ln"> 6</span><span class="cl">                           mips64-softmmu mips64el-softmmu mipsel-softmmu
-</span></span><span class="line"><span class="ln"> 7</span><span class="cl">                           nios2-softmmu or1k-softmmu ppc-softmmu ppc64-softmmu
-</span></span><span class="line"><span class="ln"> 8</span><span class="cl">                           riscv32-softmmu riscv64-softmmu rx-softmmu
-</span></span><span class="line"><span class="ln"> 9</span><span class="cl">                           s390x-softmmu sh4-softmmu sh4eb-softmmu
-</span></span><span class="line"><span class="ln">10</span><span class="cl">                           sparc-softmmu sparc64-softmmu tricore-softmmu
-</span></span><span class="line"><span class="ln">11</span><span class="cl">                           x86_64-softmmu xtensa-softmmu xtensaeb-softmmu
-</span></span><span class="line"><span class="ln">12</span><span class="cl">                           aarch64-linux-user aarch64_be-linux-user
-</span></span><span class="line"><span class="ln">13</span><span class="cl">                           alpha-linux-user arm-linux-user armeb-linux-user
-</span></span><span class="line"><span class="ln">14</span><span class="cl">                           cris-linux-user hexagon-linux-user hppa-linux-user
-</span></span><span class="line"><span class="ln">15</span><span class="cl">                           i386-linux-user loongarch64-linux-user
-</span></span><span class="line"><span class="ln">16</span><span class="cl">                           m68k-linux-user microblaze-linux-user
-</span></span><span class="line"><span class="ln">17</span><span class="cl">                           microblazeel-linux-user mips-linux-user
-</span></span><span class="line"><span class="ln">18</span><span class="cl">                           mips64-linux-user mips64el-linux-user
-</span></span><span class="line"><span class="ln">19</span><span class="cl">                           mipsel-linux-user mipsn32-linux-user
-</span></span><span class="line"><span class="ln">20</span><span class="cl">                           mipsn32el-linux-user nios2-linux-user
-</span></span><span class="line"><span class="ln">21</span><span class="cl">                           or1k-linux-user ppc-linux-user ppc64-linux-user
-</span></span><span class="line"><span class="ln">22</span><span class="cl">                           ppc64le-linux-user riscv32-linux-user
-</span></span><span class="line"><span class="ln">23</span><span class="cl">                           riscv64-linux-user s390x-linux-user sh4-linux-user
-</span></span><span class="line"><span class="ln">24</span><span class="cl">                           sh4eb-linux-user sparc-linux-user
-</span></span><span class="line"><span class="ln">25</span><span class="cl">                           sparc32plus-linux-user sparc64-linux-user
-</span></span><span class="line"><span class="ln">26</span><span class="cl">                           x86_64-linux-user xtensa-linux-user
-</span></span><span class="line"><span class="ln">27</span><span class="cl">                           xtensaeb-linux-user
-</span></span><span class="line"><span class="ln">28</span><span class="cl">  --target-list-exclude<span class="o">=</span>LIST exclude a <span class="nb">set</span> of targets from the default target-list</span></span></code></pre></div><p>除此之外，我还要关注一下，是否有编译 Debug 版本，也就是带有调试信息的编译选项：</p>
-
-
-
-
-
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="ln">1</span><span class="cl"> --enable-debug           <span class="nb">enable</span> common debug build options</span></span></code></pre></div><p>如此，我们输入以下命令，来完成 QEMU 编译选项的配置：</p>
-
-
-
-
-
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="ln">1</span><span class="cl">./configure --target-list<span class="o">=</span>riscv32-softmmu,riscv64-softmmu,riscv32-linux-user,riscv64-linux-user --enable-debug</span></span></code></pre></div><p>之后进入生成的 build 目录，输入 <code>ninja</code> 就可以编译了。</p>
-]]></content:encoded>
+      <guid>https://zevorn.github.io/blog/posts/qemu-learn-how-build/</guid>
+      <description>参照 QEMU Downland 主要遇到的问题，大部分是缺少依赖的软件包或者库，基本依赖如下： build-essential python3-pip python-is-python3 ninja-build pkg-config libglib2.0-dev libpixman-1-dev 不同的操作系统，安装命令可能不太一样。如果安装了以上的库，还会编译出错，请自行解决，或者编译的时候，遇到缺啥，就安装</description>
     </item>
   </channel>
 </rss>
