@@ -65,6 +65,7 @@ pygmentscodefencesguesssyntax = true
 [social]
   github = "https://github.com/zevorn"
   bilibili = "https://space.bilibili.com/483048140"
+  gitlab = "https://gitee.com/zevorn"
 
 [markup]
 [markup.goldmark]
