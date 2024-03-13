@@ -1,0 +1,28 @@
+<div class="header animated fadeInDown">
+    <div class="site_title_container">
+        <div class="site_title">
+            <h1>
+                <a href="{{ .Site.BaseURL }}">
+                    <span>{{ .Site.Title }}</span>
+                </a>
+            </h1>
+        </div>
+        <div class="description">
+            <p class="sub_title">{{ with .Site.Params.subTitle }}{{ . }}{{ else }}{{ end }}</p>
+            <div class="my_socials">
+                {{ range $key, $val := .Site.Social }}
+                {{ if ne $val "" }}
+                <a href="{{ $val }}" title="{{ $key }}" target="_blank"><i class="ri-{{ $key }}-fill"></i></a>
+                {{ end }}
+                {{ end }}
+                <!-- 修改此处以适应新的RSS链接获取方式 -->
+                {{ $rssFormat := .OutputFormats.Get "RSS" }}
+                {{ with $rssFormat }}
+                    {{ if not $rssFormat }}
+                        <a href="{{ .Permalink }}" type="application/rss+xml" title="rss" target="_blank"><i class="ri-rss-fill"></i></a>
+                    {{ end }}
+                {{ end }}
+            </div>
+        </div>
+    </div>
+</div>
