@@ -102,7 +102,7 @@
                         <span class="date">2024.03.12</span>
                     </div>
                     <div class="post_content markdown"><p>GDB 是 GNU Debugger 的简称，属于 GNU 项目的一部分，是一款功能强大且广泛使用的命令行调试工具，专为 Unix 和类 Unix 操作系统设计，尤其在 Linux 环境下是程序员首选的调试工具之一。GDB 主要用于调试 C、C++、Pascal、FORTRAN、Ada、Objective-C、Free Pascal、Go 等多种编程语言编写的程序。</p>
-<p>以笔者的经验来看，掌握了 GDB ，就等于掌握了一把神兵利器，可以帮我们快速定位问题，极大的降低时间成本。从包管理器安装或者源码编译的 GDB 是一个毛坯房，“装修装修”再入住会更舒服，所以接下来手把手教你定制属于自己的 GDB 。</p>
+<p>掌握了 GDB ，就等于掌握了一把神兵利器，可以帮我们快速定位问题，极大的降低时间成本。从包管理器安装或者源码编译的 GDB 是一个毛坯房，“装修装修”再入住会更舒服，所以接下来手把手教你定制属于自己的 GDB 。</p>
 <h1 id="一定制-gdb-配置文件">一、定制 GDB 配置文件</h1>
 <p>GDB 有一个配置文件，叫做 <code>.gdbinit</code> ，支持写入 GDB 命令和用户自定义命令。GDB 启动时，会查找是否存在 <code>.gdbinit</code> 配置文件，先检索 <code>~/.</code> 目录，再检索当前 GDB 启动时所在的目录。文件中的 GDB 命令会在 GDB 启动时预执行。</p>
 <p>根据需要，在 GDB 配置文件中写入不同的 GDB 命令，可以达到定制化 GDB 的目的。</p>
@@ -111,7 +111,7 @@
 </span></span><span class="line"><span class="cl"><span class="nb">set</span> print pretty on
 </span></span><span class="line"><span class="cl"><span class="nb">set</span> max-value-size unlimited
 </span></span></code></pre></div><p>以上 3 个命令，设置了默认下载 GDB 调试符号、打开结构体格式化打印、不限制打印信息长度的功能。</p>
-<p>除了设置 GDB 原生命令，还可以定义用户命令（宏编码语言），可以将所有其他标准 GDB 命令与流控制指令结合使用并向其传递参数，从而创建一种语言，以允许为正在调试的特定应用程序而自定义调试器的行为。通过用户命令实现对原生 GDB 命令的组合封装，可进一步适应不同的调试场景。建议将通用的用户命令定义在 <code>~/.gdbinit</code> ，针对不同项目的用户命令可以放在各自项目文件夹下的 <code>.gdbinit</code> 当中，只需要在对应文件夹下启动 GDB 即可使用。</p>
+<p>除了设置 GDB 原生命令，还可以定义用户命令（宏编码语言），可以将所有其他标准 GDB 命令与流控制指令结合使用并向其传递参数，以允许为正在调试的特定应用程序而自定义调试器的行为。通过用户命令实现对原生 GDB 命令的组合封装，可进一步适应不同的调试场景。建议将通用的用户命令定义在 <code>~/.gdbinit</code> ，针对不同项目的用户命令可以放在各自项目文件夹下的 <code>.gdbinit</code> 当中，只需要在对应文件夹下启动 GDB 即可使用。</p>
 <p>GDB 用户命令遵循如下基本格式：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">define &lt;command&gt;
 </span></span><span class="line"><span class="cl">    &lt;code&gt;
@@ -119,21 +119,18 @@
 </span></span><span class="line"><span class="cl">document &lt;command&gt;
 </span></span><span class="line"><span class="cl">    &lt;<span class="nb">help</span> text&gt;
 </span></span><span class="line"><span class="cl">end
-</span></span></code></pre></div><p>从简单开始：清屏</p>
-<p>GDB 没有用于清屏的内置命令，但它可以调用 shell 函数；下面的代码跳到调试器之外以使用 cls 命令来清除 xterm 控制台：</p>
+</span></span></code></pre></div><p><strong>从简单开始：清屏</strong></p>
+<p>GDB 没有用于清屏的内置命令，但它可以调用 shell 函数；下面的代码跳到调试器之外以使用 <code>cls</code> 命令来清除 xterm 控制台：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">define cls
 </span></span><span class="line"><span class="cl">shell clear
 </span></span><span class="line"><span class="cl">end
 </span></span><span class="line"><span class="cl">document cls
 </span></span><span class="line"><span class="cl">Clears the screen with a simple command.
 </span></span><span class="line"><span class="cl">end
-</span></span></code></pre></div><p>此定义的上半部分（在 <code>define ... end</code> 动词所界定的范围内）构成了在调用该命令时所执行的代码。此定义的下半部分（在 <code>document ... end</code> 所界定的范围内）由 GDB 命令解释器使用，用于键入help cls 时显示与cls 命令关联的文本。</p>
-<p>在将该代码键入 <code>.gdbinit</code> 文件以后，调出 GDB 并输入cls 命令。此时屏幕被清除，您所看到的就只有 GDB 提示符。您的 GDB 自定义之旅已经开始了！</p>
-<p>文档的重要性
-如果输入 help user 命令，您会看到已在 <code>.gdbinit</code> 文件中输入的所有用户命令的摘要。<code>.gdbinit</code> 用户定义命令的设计者提供了一个重要特性，您在编写自己的命令时不应忽略该特性：<code>document ... end</code> 子句。随着这些命令数量的增加，维护有关命令如何工作的功能文档将变得非常关键。</p>
-<p>断点别名</p>
-<p>许多 GDB 命令太繁琐，这是众所周知的事实。尽管可以对它们进行缩写，但是 GDB 宏语言允许实现进一步的简化。诸如 <code>info breakpoints</code> 这样的命令可以变得像bpl 一样简单。清单 1 显示了一组此类简单和高度有用的断点别名 用户命令，您可以将它们添加到不断增长的 ``.gdbinit 文件中。</p>
-<p>这里给出常见的断点别名命令封装：</p>
+</span></span></code></pre></div><p>此定义的上半部分（在 <code>define ... end</code> 动词所界定的范围内）构成了在调用该命令时所执行的代码。此定义的下半部分（在 <code>document ... end</code> 所界定的范围内）由 GDB 命令解释器使用，用于键入 <code>help cls</code> 时显示与 <code>cls</code> 命令关联的文本。</p>
+<p>如果输入 <code>help user</code> 命令，可以看到在 <code>.gdbinit</code> 文件中输入的所有用户命令的摘要。<code>.gdbinit</code> 用户定义命令的设计者提供了一个重要特性，在编写自己的命令时不应忽略该特性：<code>document ... end</code> 子句。随着这些命令数量的增加，维护有关命令如何工作的功能文档将变得非常关键。</p>
+<p><strong>断点别名</strong></p>
+<p>许多 GDB 命令太繁琐，这是众所周知的事实。尽管可以对它们进行缩写，但是 GDB 宏语言允许实现进一步的简化。诸如 <code>info breakpoints</code> 这样的命令可以变得像 <code>bpl</code> 一样简单，这里给出常见的断点别名命令封装：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">define bpl
 </span></span><span class="line"><span class="cl">info breakpoints
 </span></span><span class="line"><span class="cl">end
@@ -196,11 +193,11 @@
 </span></span><span class="line"><span class="cl">&gt;end          <span class="c1"># 3. 输入结束命令</span>
 </span></span><span class="line"><span class="cl"><span class="m">2</span>             <span class="c1"># 打印执行结果</span>
 </span></span><span class="line"><span class="cl"><span class="o">(</span>gdb<span class="o">)</span>
-</span></span></code></pre></div><p>如果你觉得麻烦，也可以把命令写在一行：</p>
+</span></span></code></pre></div><p>如果觉得麻烦，也可以把命令写在一行：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">(</span>gdb<span class="o">)</span> python print<span class="o">(</span>1+1<span class="o">)</span>
 </span></span><span class="line"><span class="cl"><span class="m">2</span>
 </span></span><span class="line"><span class="cl"><span class="o">(</span>gdb<span class="o">)</span>
-</span></span></code></pre></div><p>更进一步的，你可以将 python 代码放在一个 <code>.py</code> 文件，直接在 GDB 中调用：</p>
+</span></span></code></pre></div><p>更进一步的，可以将 python 代码放在一个 <code>.py</code> 文件，直接在 GDB 中调用：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">(</span>gdb<span class="o">)</span> <span class="nb">source</span> script.py
 </span></span></code></pre></div><p>下面给出一个记录指令流的 GDB-python 脚本代码示例：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">gdb</span> <span class="c1"># 如果在 gdb 里面直接执行 python 代码，不需要 import gdb</span>
@@ -236,7 +233,7 @@
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">    <span class="c1"># 如果你想在达到某个条件时结束脚本，可以在这里添加相应的逻辑</span>
 </span></span></code></pre></div><h1 id="三玩转-gdb-插件">三、玩转 GDB 插件</h1>
-<p>如果你觉得用户命令和 python 脚本编写起来比较麻烦，想获得开箱即用的体验，那么你可以了解一下 GDB 插件（基本是基于用户命令和 python 脚本实现），笔者常用的插件是 peda ，安装流程如下：</p>
+<p>如果还是觉得用户命令和 python 脚本编写起来比较麻烦，想获得开箱即用的体验，那么你可以了解一下 GDB 插件（基本是基于用户命令和 python 脚本实现），笔者常用的插件是 peda ，安装流程如下：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">git clone https://github.com/longld/peda.git ~/peda
 </span></span><span class="line"><span class="cl"><span class="nb">echo</span> <span class="s2">&#34;source ~/peda/peda.py&#34;</span> &gt;&gt; ~/.gdbinit
 </span></span><span class="line"><span class="cl"><span class="nb">echo</span> <span class="s2">&#34;DONE! debug your program with gdb and enjoy&#34;</span>
