@@ -6,9 +6,6 @@ description = "搭建 QEMU 开发环境。"
 tags = [
     "QEMU",
 ]
-categories = [
-    "笔记",
-]
 +++
 
 参照 [QEMU Downland](https://www.qemu.org/download/)

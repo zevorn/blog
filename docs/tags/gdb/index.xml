@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>GDB on 📖</title>
+    <link>https://zevorn.github.io/blog/tags/gdb/</link>
+    <description>Recent content in GDB on 📖</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Tue, 12 Mar 2024 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://zevorn.github.io/blog/tags/gdb/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>玩转 GDB · 工欲善其事必先利其器</title>
+      <link>https://zevorn.github.io/blog/posts/gdb-learn-note/</link>
+      <pubDate>Tue, 12 Mar 2024 00:00:00 +0000</pubDate>
+      <guid>https://zevorn.github.io/blog/posts/gdb-learn-note/</guid>
+      <description>GDB 是 GNU Debugger 的简称，属于 GNU 项目的一部分，是一款功能强大且广泛使用的命令行调试工具，专为 Unix 和类 Unix 操作系统设计，尤其在 Linux 环境下是程序员首选的调试工具之一。GDB 主要用于调试 C、C++、Pascal、FORTR</description>
+    </item>
+  </channel>
+</rss>

@@ -6,8 +6,15 @@
     <description>Recent content in Tags on 📖</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Sun, 10 Mar 2024 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 12 Mar 2024 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://zevorn.github.io/blog/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>GDB</title>
+      <link>https://zevorn.github.io/blog/tags/gdb/</link>
+      <pubDate>Tue, 12 Mar 2024 00:00:00 +0000</pubDate>
+      <guid>https://zevorn.github.io/blog/tags/gdb/</guid>
+      <description></description>
+    </item>
     <item>
       <title>QEMU</title>
       <link>https://zevorn.github.io/blog/tags/qemu/</link>

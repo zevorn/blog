@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="author" content="zevorn" />
+	
+	
+	
+	<title>玩转 GDB · 工欲善其事必先利其器 ｜ 📖</title>
+	
+    
+    
+    <meta name="description" content="GDB 的进阶使用" />
+    
+
+    
+    
+    <meta name="keywords" content="zevorn, hugo, blog" />
+    
+
+	
+    
+    <link rel="shortcut icon" href="https://zevorn.github.io/blog/images/favicon.ico" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="https://zevorn.github.io/blog/css/normalize.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.0/animate.min.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="https://zevorn.github.io/blog/css/zozo.css" />
+	<link rel="stylesheet" type="text/css" media="screen" href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="https://zevorn.github.io/blog/css/highlight.css" />
+
+    
+    
+</head>
+
+<body>
+    <div class="main animate__animated animate__fadeInDown">
+        <div class="nav_container animated fadeInDown">
+    <div class="site_nav" id="site_nav">
+        <ul>
+            
+            <li>
+                <a href="/blog/"> 主页</a>
+            </li>
+            
+            <li>
+                <a href="/blog/posts/">文章</a>
+            </li>
+            
+            <li>
+                <a href="/blog/tags/">标签</a>
+            </li>
+            
+            <li>
+                <a href="/blog/about/">关于我</a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="menu_icon">
+        <a id="menu_icon"><i class="ri-menu-line"></i></a>
+    </div>
+</div>
+        <div class="header animated fadeInDown">
+    <div class="site_title_container">
+        <div class="site_title">
+            <h1>
+                <a href="https://zevorn.github.io/blog/">
+                    <span>📖</span>
+                </a>
+            </h1>
+        </div>
+        <div class="description">
+            <p class="sub_title">泽文的博客</p>
+            <div class="my_socials">
+                
+                
+                <a href="https://space.bilibili.com/483048140" title="bilibili" target="_blank"><i class="ri-bilibili-fill"></i></a>
+                
+                
+                
+                <a href="https://github.com/zevorn" title="github" target="_blank"><i class="ri-github-fill"></i></a>
+                
+                
+                
+                <a href="https://gitee.com/zevorn" title="gitlab" target="_blank"><i class="ri-gitlab-fill"></i></a>
+                
+                
+                
+                
+                
+            </div>
+        </div>
+    </div>
+</div>
+        <div class="content">
+            <div class="post_page">
+                <div class="post animate__animated animate__fadeInDown">
+                    <div class="post_title post_detail_title">
+                        <h2><a href='/blog/posts/gdb-learn-note/'>玩转 GDB · 工欲善其事必先利其器</a></h2>
+                        <span class="date">2024.03.12</span>
+                    </div>
+                    <div class="post_content markdown"><p>GDB 是 GNU Debugger 的简称，属于 GNU 项目的一部分，是一款功能强大且广泛使用的命令行调试工具，专为 Unix 和类 Unix 操作系统设计，尤其在 Linux 环境下是程序员首选的调试工具之一。GDB 主要用于调试 C、C++、Pascal、FORTRAN、Ada、Objective-C、Free Pascal、Go 等多种编程语言编写的程序。</p>
+<p>以笔者的经验来看，掌握了 GDB ，就等于掌握了一把神兵利器，可以帮我们快速定位问题，极大的降低时间成本。从包管理器安装或者源码编译的 GDB 是一个毛坯房，“装修装修”再入住会更舒服，所以接下来手把手教你定制属于自己的 GDB 。</p>
+<h1 id="一定制-gdb-配置文件">一、定制 GDB 配置文件</h1>
+<p>GDB 有一个配置文件，叫做 <code>.gdbinit</code> ，支持写入 GDB 命令和用户自定义命令。GDB 启动时，会查找是否存在 <code>.gdbinit</code> 配置文件，先检索 <code>~/.</code> 目录，再检索当前 GDB 启动时所在的目录。文件中的 GDB 命令会在 GDB 启动时预执行。</p>
+<p>根据需要，在 GDB 配置文件中写入不同的 GDB 命令，可以达到定制化 GDB 的目的。</p>
+<p>比如:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nb">set</span> debuginfod enabled on
+</span></span><span class="line"><span class="cl"><span class="nb">set</span> print pretty on
+</span></span><span class="line"><span class="cl"><span class="nb">set</span> max-value-size unlimited
+</span></span></code></pre></div><p>以上 3 个命令，设置了默认下载 GDB 调试符号、打开结构体格式化打印、不限制打印信息长度的功能。</p>
+<p>除了设置 GDB 原生命令，还可以定义用户命令（宏编码语言），可以将所有其他标准 GDB 命令与流控制指令结合使用并向其传递参数，从而创建一种语言，以允许为正在调试的特定应用程序而自定义调试器的行为。通过用户命令实现对原生 GDB 命令的组合封装，可进一步适应不同的调试场景。建议将通用的用户命令定义在 <code>~/.gdbinit</code> ，针对不同项目的用户命令可以放在各自项目文件夹下的 <code>.gdbinit</code> 当中，只需要在对应文件夹下启动 GDB 即可使用。</p>
+<p>GDB 用户命令遵循如下基本格式：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">define &lt;command&gt;
+</span></span><span class="line"><span class="cl">    &lt;code&gt;
+</span></span><span class="line"><span class="cl">end
+</span></span><span class="line"><span class="cl">document &lt;command&gt;
+</span></span><span class="line"><span class="cl">    &lt;<span class="nb">help</span> text&gt;
+</span></span><span class="line"><span class="cl">end
+</span></span></code></pre></div><p>从简单开始：清屏</p>
+<p>GDB 没有用于清屏的内置命令，但它可以调用 shell 函数；下面的代码跳到调试器之外以使用 cls 命令来清除 xterm 控制台：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">define cls
+</span></span><span class="line"><span class="cl">shell clear
+</span></span><span class="line"><span class="cl">end
+</span></span><span class="line"><span class="cl">document cls
+</span></span><span class="line"><span class="cl">Clears the screen with a simple command.
+</span></span><span class="line"><span class="cl">end
+</span></span></code></pre></div><p>此定义的上半部分（在 <code>define ... end</code> 动词所界定的范围内）构成了在调用该命令时所执行的代码。此定义的下半部分（在 <code>document ... end</code> 所界定的范围内）由 GDB 命令解释器使用，用于键入help cls 时显示与cls 命令关联的文本。</p>
+<p>在将该代码键入 <code>.gdbinit</code> 文件以后，调出 GDB 并输入cls 命令。此时屏幕被清除，您所看到的就只有 GDB 提示符。您的 GDB 自定义之旅已经开始了！</p>
+<p>文档的重要性
+如果输入 help user 命令，您会看到已在 <code>.gdbinit</code> 文件中输入的所有用户命令的摘要。<code>.gdbinit</code> 用户定义命令的设计者提供了一个重要特性，您在编写自己的命令时不应忽略该特性：<code>document ... end</code> 子句。随着这些命令数量的增加，维护有关命令如何工作的功能文档将变得非常关键。</p>
+<p>断点别名</p>
+<p>许多 GDB 命令太繁琐，这是众所周知的事实。尽管可以对它们进行缩写，但是 GDB 宏语言允许实现进一步的简化。诸如 <code>info breakpoints</code> 这样的命令可以变得像bpl 一样简单。清单 1 显示了一组此类简单和高度有用的断点别名 用户命令，您可以将它们添加到不断增长的 ``.gdbinit 文件中。</p>
+<p>这里给出常见的断点别名命令封装：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">define bpl
+</span></span><span class="line"><span class="cl">info breakpoints
+</span></span><span class="line"><span class="cl">end
+</span></span><span class="line"><span class="cl">document bpl
+</span></span><span class="line"><span class="cl">List breakpoints
+</span></span><span class="line"><span class="cl">end
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">define bpa
+</span></span><span class="line"><span class="cl"><span class="nb">break</span> * <span class="nv">$arg0</span>
+</span></span><span class="line"><span class="cl">end
+</span></span><span class="line"><span class="cl">document bpa
+</span></span><span class="line"><span class="cl">Set a breakpoint on address
+</span></span><span class="line"><span class="cl">Usage: bpa addr
+</span></span><span class="line"><span class="cl">end
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">define bpc
+</span></span><span class="line"><span class="cl">clear <span class="nv">$arg0</span>
+</span></span><span class="line"><span class="cl">end
+</span></span><span class="line"><span class="cl">document bpc
+</span></span><span class="line"><span class="cl">Clear breakpoint at <span class="k">function</span>/address
+</span></span><span class="line"><span class="cl">Usage: bpc addr
+</span></span><span class="line"><span class="cl">end
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">define bpe
+</span></span><span class="line"><span class="cl"><span class="nb">enable</span> <span class="nv">$arg0</span>
+</span></span><span class="line"><span class="cl">end
+</span></span><span class="line"><span class="cl">document bpe
+</span></span><span class="line"><span class="cl">Enable breakpoint <span class="c1">#</span>
+</span></span><span class="line"><span class="cl">Usage: bpe num
+</span></span><span class="line"><span class="cl">end
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">define bpd
+</span></span><span class="line"><span class="cl">disable <span class="nv">$arg0</span>
+</span></span><span class="line"><span class="cl">end
+</span></span><span class="line"><span class="cl">document bpd
+</span></span><span class="line"><span class="cl">Disable breakpoint <span class="c1">#</span>
+</span></span><span class="line"><span class="cl">Usage: bpd num
+</span></span><span class="line"><span class="cl">end
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">define bpt
+</span></span><span class="line"><span class="cl">tbreak <span class="nv">$arg0</span>
+</span></span><span class="line"><span class="cl">end
+</span></span><span class="line"><span class="cl">document bpt
+</span></span><span class="line"><span class="cl">Set a temporary breakpoint on address
+</span></span><span class="line"><span class="cl">Usage: bpt addr
+</span></span><span class="line"><span class="cl">end
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">define bpm
+</span></span><span class="line"><span class="cl">awatch <span class="nv">$arg0</span>
+</span></span><span class="line"><span class="cl">end
+</span></span><span class="line"><span class="cl">document bpm
+</span></span><span class="line"><span class="cl">Set a read/write breakpoint on address
+</span></span><span class="line"><span class="cl">Usage: bpm addr
+</span></span><span class="line"><span class="cl">end
+</span></span></code></pre></div><h1 id="二善用-gdb-的-python-脚本">二、善用 GDB 的 python 脚本</h1>
+<p>GDB 的用户命令是一种宏语言，语法比较简陋，只能实现对已有命令的封装，对一些复杂调试场景和应对一些特殊调试需求，比如记录指令流，比如自动化处理某些调试任务，就显得有些捉襟见肘。但是好在，GDB 支持 python 脚本执行，可以把一些调试流程编程脚本自动化执行，尽可能解放我们的双手，让开发人员可以专注于调试思路（但想要在 GDB 中正常使用 python，需要先确保你已经安装好它）。</p>
+<p>下面举例一个简单的使用思路：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">(</span>gdb<span class="o">)</span> python  <span class="c1"># 1，进入 gdb 以后，输入 python 可以进入 python 解释器环境</span>
+</span></span><span class="line"><span class="cl">&gt;print<span class="o">(</span><span class="m">1</span> + 1<span class="o">)</span> <span class="c1"># 2. 这里打印 1 + 1</span>
+</span></span><span class="line"><span class="cl">&gt;end          <span class="c1"># 3. 输入结束命令</span>
+</span></span><span class="line"><span class="cl"><span class="m">2</span>             <span class="c1"># 打印执行结果</span>
+</span></span><span class="line"><span class="cl"><span class="o">(</span>gdb<span class="o">)</span>
+</span></span></code></pre></div><p>如果你觉得麻烦，也可以把命令写在一行：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">(</span>gdb<span class="o">)</span> python print<span class="o">(</span>1+1<span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="m">2</span>
+</span></span><span class="line"><span class="cl"><span class="o">(</span>gdb<span class="o">)</span>
+</span></span></code></pre></div><p>更进一步的，你可以将 python 代码放在一个 <code>.py</code> 文件，直接在 GDB 中调用：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">(</span>gdb<span class="o">)</span> <span class="nb">source</span> script.py
+</span></span></code></pre></div><p>下面给出一个记录指令流的 GDB-python 脚本代码示例：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">gdb</span> <span class="c1"># 如果在 gdb 里面直接执行 python 代码，不需要 import gdb</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 定义要写入的文件名</span>
+</span></span><span class="line"><span class="cl"><span class="n">logfile</span> <span class="o">=</span> <span class="s2">&#34;gdb_jump_instr_log.txt&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 清空或创建新文件</span>
+</span></span><span class="line"><span class="cl"><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">logfile</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">is_jump_instruction</span><span class="p">(</span><span class="n">instruction</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># 这里仅提供了一个基础示例，实际实现需要根据目标架构和具体的指令集进行扩展</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># 例如，x86架构下，call、jmp、j*等都是跳转指令</span>
+</span></span><span class="line"><span class="cl">    <span class="n">jump_instructions</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&#34;call&#34;</span><span class="p">,</span> <span class="s2">&#34;jmp&#34;</span><span class="p">,</span> <span class="s2">&#34;je&#34;</span><span class="p">,</span> <span class="s2">&#34;jne&#34;</span><span class="p">,</span> <span class="s2">&#34;jz&#34;</span><span class="p">,</span> <span class="s2">&#34;jnz&#34;</span><span class="p">]</span>  <span class="c1"># 示例，不完整列表</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="nb">any</span><span class="p">(</span><span class="n">inst</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="n">instruction</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="k">for</span> <span class="n">inst</span> <span class="ow">in</span> <span class="n">jump_instructions</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># 获取当前PC值</span>
+</span></span><span class="line"><span class="cl">    <span class="n">pc_value</span> <span class="o">=</span> <span class="n">gdb</span><span class="o">.</span><span class="n">parse_and_eval</span><span class="p">(</span><span class="s2">&#34;$pc&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1"># 获取当前地址的汇编指令</span>
+</span></span><span class="line"><span class="cl">    <span class="n">disassembly_line</span> <span class="o">=</span> <span class="n">gdb</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="sa">f</span><span class="s2">&#34;x/i </span><span class="si">{</span><span class="n">pc_value</span><span class="si">}</span><span class="s2">&#34;</span><span class="p">,</span> <span class="n">to_string</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">1</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="n">is_jump_instruction</span><span class="p">(</span><span class="n">disassembly_line</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">logfile</span><span class="p">,</span> <span class="s1">&#39;a&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%s</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">pc_value</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1"># 执行单步指令（这里假设你希望每次检查后都单步执行一次）</span>
+</span></span><span class="line"><span class="cl">    <span class="n">gdb</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">&#34;si&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1"># 可以在这里添加更多的调试信息，如寄存器状态等</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1"># 如果你想在达到某个条件时结束脚本，可以在这里添加相应的逻辑</span>
+</span></span></code></pre></div><h1 id="三玩转-gdb-插件">三、玩转 GDB 插件</h1>
+<p>如果你觉得用户命令和 python 脚本编写起来比较麻烦，想获得开箱即用的体验，那么你可以了解一下 GDB 插件（基本是基于用户命令和 python 脚本实现），笔者常用的插件是 peda ，安装流程如下：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">git clone https://github.com/longld/peda.git ~/peda
+</span></span><span class="line"><span class="cl"><span class="nb">echo</span> <span class="s2">&#34;source ~/peda/peda.py&#34;</span> &gt;&gt; ~/.gdbinit
+</span></span><span class="line"><span class="cl"><span class="nb">echo</span> <span class="s2">&#34;DONE! debug your program with gdb and enjoy&#34;</span>
+</span></span></code></pre></div><p>使用界面如下，比较适合逆向工程：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>----------------------------------registers-----------------------------------<span class="o">]</span>
+</span></span><span class="line"><span class="cl">EAX: 0xb0c <span class="o">(</span><span class="s1">&#39;\x0c\x0b&#39;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">EBX: 0x1804e990 --&gt; 0x91085c7
+</span></span><span class="line"><span class="cl">ECX: 0xb0
+</span></span><span class="line"><span class="cl">EDX: 0x568
+</span></span><span class="line"><span class="cl">ESI: 0xf7ff24d4 <span class="o">(</span><span class="s2">&#34;DHRYSTONE PROGRAM, 2&#39;ND STRING&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">EDI: 0xf7ff2504 <span class="o">(</span><span class="s2">&#34;M, 1&#39;ST STRING&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">EBP: 0x1a000000 <span class="o">(</span>0x1a000000<span class="o">)</span>
+</span></span><span class="line"><span class="cl">ESP: 0xffffd6e8 --&gt; 0x0
+</span></span><span class="line"><span class="cl">EIP: 0x402a2269 <span class="o">(</span>add    esi,0x10<span class="o">)</span>
+</span></span><span class="line"><span class="cl">EFLAGS: 0x282 <span class="o">(</span>carry parity adjust zero SIGN <span class="nb">trap</span> INTERRUPT direction overflow<span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>-------------------------------------code-------------------------------------<span class="o">]</span>
+</span></span><span class="line"><span class="cl">   0x402a225e:  add    edi,0x10
+</span></span><span class="line"><span class="cl">   0x402a2261:  pxor   xmm0,xmm0
+</span></span><span class="line"><span class="cl">   0x402a2265:  pcmpeqb xmm2,xmm1
+</span></span><span class="line"><span class="cl"><span class="o">=</span>&gt; 0x402a2269:  add    esi,0x10
+</span></span><span class="line"><span class="cl">   0x402a226c:  pcmpeqb xmm0,xmm1
+</span></span><span class="line"><span class="cl">   0x402a2270:  pmovmskb eax,xmm2
+</span></span><span class="line"><span class="cl">   0x402a2274:  pmovmskb edx,xmm0
+</span></span><span class="line"><span class="cl">   0x402a2278:  xor    eax,0xffff
+</span></span><span class="line"><span class="cl"><span class="o">[</span>------------------------------------stack-------------------------------------<span class="o">]</span>
+</span></span><span class="line"><span class="cl">0000<span class="p">|</span> 0xffffd6e8 --&gt; 0x0
+</span></span><span class="line"><span class="cl">0004<span class="p">|</span> 0xffffd6ec --&gt; 0x0
+</span></span><span class="line"><span class="cl">0008<span class="p">|</span> 0xffffd6f0 --&gt; 0x105a3 <span class="o">(</span>inc    esi<span class="o">)</span>
+</span></span><span class="line"><span class="cl">0012<span class="p">|</span> 0xffffd6f4 --&gt; 0x0
+</span></span><span class="line"><span class="cl">0016<span class="p">|</span> 0xffffd6f8 --&gt; 0x1804ea17 --&gt; 0xc7c08941
+</span></span><span class="line"><span class="cl">0020<span class="p">|</span> 0xffffd6fc --&gt; 0x0
+</span></span><span class="line"><span class="cl">0024<span class="p">|</span> 0xffffd700 --&gt; 0xf7ff24f4 <span class="o">(</span><span class="s2">&#34;DHRYSTONE PROGRAM, 1&#39;ST STRING&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">0028<span class="p">|</span> 0xffffd704 --&gt; 0xf7ff24d4 <span class="o">(</span><span class="s2">&#34;DHRYSTONE PROGRAM, 2&#39;ND STRING&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>------------------------------------------------------------------------------<span class="o">]</span>
+</span></span><span class="line"><span class="cl">Legend: code, data, rodata, value
+</span></span><span class="line"><span class="cl">Stopped reason: SIGINT
+</span></span><span class="line"><span class="cl">0x402a2269 in ?? <span class="o">()</span>
+</span></span><span class="line"><span class="cl">gdb-peda$
+</span></span></code></pre></div><p>以上是对 GDB 一些客制化内容的介绍，后面会结合应用场景，讲讲如何灵活运用这些工具。</p>
+</div>
+                    <div class="post_footer">
+                        
+                        <div class="meta">
+                            <div class="info">
+                                <span class="field tags">
+                                    <i class="ri-stack-line"></i>
+                                    
+                                    <a href="https://zevorn.github.io/blog/tags/gdb/">GDB</a>
+                                    
+                                </span>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+                
+                
+                <div class="doc_comments"></div>
+                
+            </div>
+        </div>
+    </div>
+    <a id="back_to_top" href="#" class="back_to_top"><i class="ri-arrow-up-s-line"></i></a>
+    <footer class="footer">
+    <div class="powered_by">
+        <a href="https://varkai.com">Designed by VarKai,</a>
+        <a href="http://www.gohugo.io/">Proudly published with Hugo</a>
+    </div>
+
+    <div class="footer_slogan">
+        <span></span>
+    </div>
+</footer>
+    <script async src="https://www.googletagmanager.com/gtag/js?id="></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', '');
+</script>
+
+
+<script src="https://zevorn.github.io/blog/js/jquery-3.5.1.min.js"></script>
+<link href="https://zevorn.github.io/blog/css/fancybox.min.css" rel="stylesheet">
+<script src="https://zevorn.github.io/blog/js/fancybox.min.js"></script>
+<script src="https://zevorn.github.io/blog/js/zozo.js"></script>
+
+
+<script type="text/javascript" async
+    src="https://cdn.bootcss.com/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+        MathJax.Hub.Config({
+            tex2jax: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\[\[', '\]\]']],
+                processEscapes: true,
+                processEnvironments: true,
+                skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+                TeX: {
+                    equationNumbers: { autoNumber: "AMS" },
+                    extensions: ["AMSmath.js", "AMSsymbols.js"]
+                }
+            }
+        });
+
+        MathJax.Hub.Queue(function () {
+            
+            
+            
+            var all = MathJax.Hub.getAllJax(), i;
+            for (i = 0; i < all.length; i += 1) {
+                all[i].SourceElement().parentNode.className += ' has-jax';
+            }
+        });
+    </script>
+
+<style>
+    code.has-jax {
+        font: inherit;
+        font-size: 100%;
+        background: inherit;
+        border: inherit;
+        color: #515151;
+    }
+</style>
+
+
+</body>
+
+</html>
