@@ -26,7 +26,7 @@ Using [@discublog/api](https://github.com/discublog/api) to query GitHub reposit
 ## Fork Guide
 
 1. Make sure you have the GitHub Profile repository like [`zhangyu1818/zhangyu1818`](https://github.com/zhangyu1818/zhangyu1818).
-2. Modify site [metadata](https://github.com/zhangyu1818/blog/blob/next14/src/app/layout.tsx#L40).
+2. Modify site [metadata](https://github.com/zevorn/blogs/blob/next14/src/app/layout.tsx#L40).
 3. Modify Google verification [here](https://github.com/zhangyu1818/blog/blob/next14/src/app/layout.tsx#L65).
 4. Modify the Giscus script [here](https://github.com/zhangyu1818/blog/blob/next14/src/components/giscus/index.tsx#L17-L18).
 5. Modify the [resume page](https://github.com/zhangyu1818/blog/blob/next14/src/app/resume/page.tsx).
