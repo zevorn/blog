@@ -46,8 +46,8 @@ export default function Page() {
             <TypedText>whoami</TypedText>
             <TypedContent>
               <p>
-                Hi, I&apos;m <strong>ZHANG YU</strong>, in Chinese my name is{' '}
-                <strong>张宇</strong>.
+                Hi, I&apos;m <strong>ZEVORN</strong>, in Chinese my name is{' '}
+                <strong>泽文</strong>.
               </p>
               <p>
                 I am a senior front-end engineer who have been involving in
