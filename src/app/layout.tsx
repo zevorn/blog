@@ -39,8 +39,8 @@ export const viewport: Viewport = {
 
 export const metadata: Metadata = {
   title: {
-    absolute: 'zevorn.dev',
-    template: '%s | zevorn.dev',
+    absolute: 'zevorn.cn',
+    template: '%s | zevorn.cn',
   },
   description:
     'Dive into front-end development with a focus on React, cutting-edge frameworks, JavaScript, TypeScript, Swift, Animation and more',
@@ -53,7 +53,7 @@ export const metadata: Metadata = {
     'Animation',
     'Swift',
   ],
-  applicationName: 'zevorn.dev',
+  applicationName: 'zevorn.cn',
   authors: {
     name: 'zevorn',
     url: 'https://github.com/zevorn',

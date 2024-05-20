@@ -207,7 +207,7 @@ export default function Page() {
               </div>
               <div className='flex items-center'>
                 <p className='basis-1/4 text-center font-semibold'>Email</p>
-                <a href='mailto:hey@zhangyu.dev'>hey@zhangyu.dev</a>
+                <a href='mailto:zevorn@yeah.net'>zevorn@yeah.net</a>
               </div>
             </TypedContent>
           </Typed>

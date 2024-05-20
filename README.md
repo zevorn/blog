@@ -2,7 +2,7 @@
 
 My personal blog.
 
-[zevorn.dev](zevorn.dev)
+[zevorn.cn](zevorn.cn)
 
 Using [Next.js](https://nextjs.org/) v14 App Router and React Server Components. Styling with [TailwindCSS](https://tailwindcss.com/).
 
@@ -10,7 +10,7 @@ Using [@discublog/api](https://github.com/discublog/api) to query GitHub reposit
 
 ## Deploy
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fzevorn%2Fblog&env=GITHUB_TOKEN,REPO_NAME,REPO_OWNER&envDescription=GitHub%20Token&envLink=https%3A%2F%2Fdocs.github.com%2Fen%2Fauthentication%2Fkeeping-your-account-and-data-secure%2Fmanaging-your-personal-access-tokens&project-name=blog&repository-name=blog&demo-title=zevorn's%20blog&demo-description=Personal%20blog&demo-url=https%3A%2F%2Fzevorn.dev)
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fzevorn%2Fblog&env=GITHUB_TOKEN,REPO_NAME,REPO_OWNER&envDescription=GitHub%20Token&envLink=https%3A%2F%2Fdocs.github.com%2Fen%2Fauthentication%2Fkeeping-your-account-and-data-secure%2Fmanaging-your-personal-access-tokens&project-name=blog&repository-name=blog&demo-title=zevorn's%20blog&demo-description=Personal%20blog&demo-url=https%3A%2F%2Fzevorn.cn)
 
 > [!IMPORTANT]
 > Make sure to open [discussions](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/enabling-features-for-your-repository/enabling-or-disabling-github-discussions-for-a-repository) on the new repository after creating it in "Create Git Repository" and before adding environment variables.
