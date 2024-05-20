@@ -7,7 +7,9 @@ export const Logo = () => {
         <strong className='text-2xl font-bold tracking-tighter xl:text-3xl'>
           ZEVORN
         </strong>
-        <small className='font-semibold tracking-normal xl:text-xl'>.net</small>
+        <small className='font-semibold tracking-normal xl:text-xl'>
+          .blog
+        </small>
       </Link>
     </h1>
   )
