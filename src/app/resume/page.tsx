@@ -89,9 +89,7 @@ export default function Page() {
               <ul>
                 <li>
                   <strong>
-                    <a href='https://github.com/zhangyu1818/react-markdown-toc'>
-                      react-markdown-toc
-                    </a>
+                    <a href='https://gitee.com/gevico/antos'>AntOS</a>
                   </strong>
                 </li>
                 <li>Generating a Table of Contents (TOC) from Markdown.</li>
@@ -99,8 +97,8 @@ export default function Page() {
               <ul>
                 <li>
                   <strong>
-                    <a href='https://github.com/zhangyu1818/from-to'>
-                      from-to.js
+                    <a href='https://gitee.com/gevico/mini-dso-pro'>
+                      MiniDSO-Pro
                     </a>
                   </strong>
                 </li>
@@ -109,9 +107,7 @@ export default function Page() {
               <ul>
                 <li>
                   <strong>
-                    <a href='https://github.com/zhangyu1818/react-server-only-context'>
-                      react-server-only-context
-                    </a>
+                    <a href='https://gitee.com/gevico/mcs51-ell'>MCS51-ELL</a>
                   </strong>
                 </li>
                 <li>
@@ -122,8 +118,8 @@ export default function Page() {
               <ul>
                 <li>
                   <strong>
-                    <a href='https://github.com/zhangyu1818/tw-styled'>
-                      tw-styled
+                    <a href='https://gitee.com/gevico/freertos'>
+                      FreeRTOS for MCS-251
                     </a>
                   </strong>
                 </li>
