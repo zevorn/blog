@@ -74,6 +74,7 @@ export default function RootLayout({ children }) {
       className={clsx(sans.variable, serif.variable, handwriting.variable)}
     >
       <head>
+        <meta name='baidu-site-verification' content='codeva-fhR5yeO5Lo' />
         <link
           rel='icon'
           type='image/png'
