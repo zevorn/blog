@@ -75,6 +75,7 @@ export default function RootLayout({ children }) {
     >
       <head>
         <meta name='baidu-site-verification' content='codeva-fhR5yeO5Lo' />
+        <meta name='msvalidate.01' content='B936D7B6A9AB03565B05356475E91930' />
         <link
           rel='icon'
           type='image/png'
