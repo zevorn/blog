@@ -39,8 +39,8 @@ export const viewport: Viewport = {
 
 export const metadata: Metadata = {
   title: {
-    absolute: 'zevorn.cn',
-    template: '%s | zevorn.cn',
+    absolute: 'zevorn.blog',
+    template: '%s | zevorn.blog',
   },
   description:
     'Dive into front-end development with a focus on React, cutting-edge frameworks, JavaScript, TypeScript, Swift, Animation and more',
