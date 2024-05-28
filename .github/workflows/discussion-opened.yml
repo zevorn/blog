@@ -1,7 +1,7 @@
 name: Deploy on Discussion Create
 
 on:
-  discussion:
+  discussions:
     types: [created, edited]
   label:
     types: [created, edited]
