@@ -65,9 +65,10 @@ export async function Markdown(props: MarkdownProps) {
           rehypeShiki,
           {
             themes: {
-              light: 'solarized-light',
-              dark: 'dracula-soft',
+              light: 'github-light',
+              dark: 'github-dark',
             },
+            defaultColor: false,
             transformers: [
               transformerNotationDiff(),
               transformerNotationHighlight(),

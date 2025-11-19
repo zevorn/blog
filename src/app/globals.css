@@ -88,10 +88,29 @@
   }
 }
 
+/* Shiki 代码块统一样式 */
 .shiki {
-  .line {
-    display: block;
-  }
+  @apply rounded-lg overflow-x-auto;
+  @apply bg-slate-50 dark:bg-slate-900;
+  @apply border border-slate-200 dark:border-slate-800;
+  @apply my-4 p-4;
+}
+
+.shiki .line {
+  display: block;
+  line-height: 1.6;
+}
+
+/* 统一代码块容器样式，移除额外的包装器样式差异 */
+.shiki pre {
+  @apply bg-transparent;
+  margin: 0;
+  padding: 0;
+}
+
+/* 确保 pre 标签本身也有一致的样式 */
+pre.shiki {
+  @apply font-mono text-sm;
 }
 
 /* 行内代码样式 */
@@ -103,6 +122,19 @@
   font-size: 0.875em;
   white-space: pre-wrap;
   word-break: break-word;
+}
+
+/* 行内代码在不同主题下的颜色统一 */
+:root .inline-code {
+  background-color: rgb(241 245 249);
+  color: rgb(30 41 59);
+  border-color: rgb(226 232 240);
+}
+
+:root.dark .inline-code {
+  background-color: rgb(30 41 59);
+  color: rgb(226 232 240);
+  border-color: rgb(51 65 85);
 }
 
 /* 确保行内代码不会与其他元素样式冲突 */

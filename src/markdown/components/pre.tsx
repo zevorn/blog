@@ -4,9 +4,6 @@ type PreProps = React.DetailedHTMLProps<
 >
 
 export const pre = (props: PreProps) => {
-  return (
-    <div>
-      <pre {...props} />
-    </div>
-  )
+  // 直接返回 pre，不使用额外的 div 包装器，避免样式不一致
+  return <pre {...props} />
 }
