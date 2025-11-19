@@ -3,7 +3,9 @@ import withBundleAnalyzer from '@next/bundle-analyzer'
 
 /** @type {import('next').NextConfig} */
 let nextConfig = {
-  output: 'export',
+  // Temporarily disabled static export due to GitHub API rate limiting
+  // Re-enable after rate limit resets or when using ISR
+  // output: 'export',
   images: {
     unoptimized: true,
   },
