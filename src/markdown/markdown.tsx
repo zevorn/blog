@@ -4,8 +4,8 @@ import {
   transformerNotationHighlight,
   transformerNotationFocus,
   transformerNotationErrorLevel,
-  transformerMetaHighlight,
-  transformerMetaWordHighlight,
+  // transformerMetaHighlight,     // 移除：导致无语言类型代码块显示元数据
+  // transformerMetaWordHighlight, // 移除：导致无语言类型代码块显示元数据
   transformerRemoveLineBreak,
 } from '@shikijs/transformers'
 import { transformerTwoslash } from '@shikijs/twoslash'
@@ -69,13 +69,14 @@ export async function Markdown(props: MarkdownProps) {
               dark: 'github-dark',
             },
             defaultColor: false,
+            // 移除可能导致元数据渲染的 transformers
             transformers: [
               transformerNotationDiff(),
               transformerNotationHighlight(),
               transformerNotationFocus(),
               transformerNotationErrorLevel(),
-              transformerMetaHighlight(),
-              transformerMetaWordHighlight(),
+              // transformerMetaHighlight(),      // 注释掉：可能导致元数据显示
+              // transformerMetaWordHighlight(),  // 注释掉：可能导致元数据显示
               transformerRemoveLineBreak(),
               transformerTwoslash({
                 explicitTrigger: true,
