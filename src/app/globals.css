@@ -93,33 +93,51 @@
 pre.shiki,
 code.shiki {
   @apply overflow-x-auto rounded-lg;
-  @apply bg-slate-50 dark:bg-slate-900 !important;
   @apply border border-slate-200 dark:border-slate-800;
-  @apply my-4 p-4;
+  @apply my-4;
   @apply font-mono text-sm;
-}
-
-/* 强制所有 shiki 代码块背景色一致，覆盖语言特定样式 */
-.shiki,
-.shiki span {
   background-color: rgb(248 250 252) !important;
+  padding: 1rem !important;
 }
 
 :root.dark .shiki,
-:root.dark .shiki span {
+:root.dark pre.shiki,
+:root.dark code.shiki {
   background-color: rgb(15 23 42) !important;
+}
+
+/* 强制所有 shiki 内部元素背景色一致，覆盖语言特定样式 */
+.shiki *,
+.shiki span,
+.shiki code,
+.shiki .line,
+.shiki pre {
+  background-color: transparent !important;
+  background: none !important;
+}
+
+/* 移除所有可能的背景色和边框 */
+.shiki span::before,
+.shiki span::after,
+.shiki code::before,
+.shiki code::after {
+  display: none !important;
+  background: none !important;
 }
 
 .shiki .line {
   display: block;
   line-height: 1.6;
+  background: none !important;
 }
 
 /* 统一代码块容器样式，移除额外的包装器样式差异 */
-.shiki pre {
-  @apply bg-transparent !important;
-  margin: 0;
-  padding: 0;
+.shiki pre,
+.shiki code {
+  margin: 0 !important;
+  padding: 0 !important;
+  background: transparent !important;
+  border: none !important;
 }
 
 /* 隐藏代码块中的复选框、按钮等交互元素 */
