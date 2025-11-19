@@ -84,7 +84,7 @@ export default async function Page({ params }: PageProps) {
           </h2>
           <TOC
             markdown={body!}
-            className='[&_ul]:hidden [&>ul]:block space-y-3 dark:text-color-4'
+            className='space-y-3 dark:text-color-4 [&>ul]:block [&_ul]:hidden'
             ul='space-y-2'
             a='data-[active=true]:text-brand dark:data-[active=true]:text-white block text-sm mb-2'
           />
