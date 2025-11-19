@@ -12,8 +12,6 @@ import { transformerTwoslash } from '@shikijs/twoslash'
 import rehypeAutolinkHeadings from 'rehype-autolink-headings'
 import { rehypeDefaultCodeLang } from 'rehype-default-code-lang'
 import rehypeKatex from 'rehype-katex'
-import rehypeRaw from 'rehype-raw'
-import rehypeSanitize, { defaultSchema } from 'rehype-sanitize'
 import rehypeSlug from 'rehype-slug'
 import remarkBreaks from 'remark-breaks'
 import remarkDirective from 'remark-directive'
@@ -26,7 +24,6 @@ import {
   remarkDirectiveContainer,
   rehypeGithubAlert,
   rehypeEnhanceInlineCode,
-  rehypeEscapeSpecialChars,
 } from './plugins'
 
 interface MarkdownProps {
@@ -54,37 +51,10 @@ export async function Markdown(props: MarkdownProps) {
         remarkMath, // 支持数学公式（LaTeX 语法）
       ]}
       rehypePlugins={[
-        rehypeRaw, // 支持在 markdown 中使用原始 HTML
-        [
-          rehypeSanitize,
-          {
-            ...defaultSchema,
-            // 扩展允许的标签和属性，避免过度清理
-            tagNames: [
-              ...(defaultSchema.tagNames || []),
-              'math',
-              'mi',
-              'mo',
-              'mn',
-              'ms',
-              'mtext',
-            ],
-            attributes: {
-              ...defaultSchema.attributes,
-              code: [
-                ...(defaultSchema.attributes?.code || []),
-                ['className', 'inline-code'],
-              ],
-              // 允许所有标签使用 class 和 style 属性
-              '*': ['className', 'style', 'id'],
-            },
-          },
-        ],
         rehypeGithubAlert, // GitHub 风格警告框
         rehypeSlug, // 为标题添加 ID
         rehypeAutolinkHeadings, // 标题自动链接
         rehypeEnhanceInlineCode, // 增强行内代码显示
-        rehypeEscapeSpecialChars, // 处理特殊字符
         [
           rehypeDefaultCodeLang,
           {
