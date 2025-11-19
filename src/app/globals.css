@@ -88,12 +88,26 @@
   }
 }
 
-/* Shiki 代码块统一样式 */
-.shiki {
-  @apply rounded-lg overflow-x-auto;
-  @apply bg-slate-50 dark:bg-slate-900;
+/* Shiki 代码块统一样式 - 强制所有语言使用相同主题 */
+.shiki,
+pre.shiki,
+code.shiki {
+  @apply overflow-x-auto rounded-lg;
+  @apply bg-slate-50 dark:bg-slate-900 !important;
   @apply border border-slate-200 dark:border-slate-800;
   @apply my-4 p-4;
+  @apply font-mono text-sm;
+}
+
+/* 强制所有 shiki 代码块背景色一致，覆盖语言特定样式 */
+.shiki,
+.shiki span {
+  background-color: rgb(248 250 252) !important;
+}
+
+:root.dark .shiki,
+:root.dark .shiki span {
+  background-color: rgb(15 23 42) !important;
 }
 
 .shiki .line {
@@ -103,25 +117,34 @@
 
 /* 统一代码块容器样式，移除额外的包装器样式差异 */
 .shiki pre {
-  @apply bg-transparent;
+  @apply bg-transparent !important;
   margin: 0;
   padding: 0;
 }
 
-/* 确保 pre 标签本身也有一致的样式 */
-pre.shiki {
-  @apply font-mono text-sm;
+/* 隐藏代码块中的复选框、按钮等交互元素 */
+.shiki input[type='checkbox'],
+.shiki button,
+.shiki .copy-button,
+.shiki [role='button'] {
+  display: none !important;
 }
 
 /* 行内代码样式 */
 .inline-code {
-  @apply rounded px-1.5 py-0.5 text-sm font-mono;
+  @apply rounded px-1.5 py-0.5 font-mono text-sm;
   @apply bg-slate-100 text-slate-800;
   @apply dark:bg-slate-800 dark:text-slate-200;
   @apply border border-slate-200 dark:border-slate-700;
   font-size: 0.875em;
   white-space: pre-wrap;
   word-break: break-word;
+}
+
+/* 隐藏行内代码的前后反引号（如果作为文本内容存在）*/
+.inline-code::before,
+.inline-code::after {
+  content: none !important;
 }
 
 /* 行内代码在不同主题下的颜色统一 */
@@ -159,21 +182,21 @@ td .inline-code {
   .prose table {
     @apply w-full border-collapse;
   }
-  
+
   .prose th {
-    @apply bg-slate-50 dark:bg-slate-800 font-semibold;
+    @apply bg-slate-50 font-semibold dark:bg-slate-800;
   }
-  
+
   .prose td,
   .prose th {
-    @apply border border-slate-200 dark:border-slate-700 px-4 py-2;
+    @apply border border-slate-200 px-4 py-2 dark:border-slate-700;
   }
-  
+
   /* 任务列表样式 */
   .prose input[type='checkbox'] {
     @apply mr-2;
   }
-  
+
   /* 删除线样式 */
   .prose del {
     @apply text-slate-400 dark:text-slate-600;
