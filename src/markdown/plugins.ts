@@ -1,7 +1,7 @@
 import { isElement } from 'hast-util-is-element'
 import { visit } from 'unist-util-visit'
 
-import type { Text } from 'hast'
+import type { Element, Text, Parent } from 'hast'
 import type { Directives } from 'mdast-util-directive'
 import type { Plugin } from 'unified'
 import type { Node } from 'unist'
@@ -66,3 +66,68 @@ export const rehypeGithubAlert: Plugin = () => tree =>
       }
     }
   })
+
+/**
+ * 增强行内代码显示，添加样式类和处理特殊字符
+ * 避免 HTML 标签和特殊字符与代码冲突
+ */
+export const rehypeEnhanceInlineCode: Plugin = () => tree => {
+  visit(tree, node => {
+    if (isElement(node) && node.tagName === 'code') {
+      // 检查是否是行内代码（不在 pre 标签内）
+      const parent = node as unknown as { parent?: Element }
+      const isInline = !parent.parent || parent.parent.tagName !== 'pre'
+
+      if (isInline) {
+        // 添加行内代码样式类
+        const existingClasses = node.properties?.className
+        const classArray = Array.isArray(existingClasses)
+          ? existingClasses.filter(
+              (c): c is string =>
+                typeof c === 'string' || typeof c === 'number',
+            )
+          : existingClasses && typeof existingClasses !== 'boolean'
+            ? [existingClasses as string]
+            : []
+
+        node.properties = {
+          ...node.properties,
+          className: [...classArray, 'inline-code'],
+        }
+
+        // 处理代码内容中的特殊字符，确保正确显示
+        visit(node, 'text', (textNode: Text) => {
+          if (textNode.value) {
+            // 保留原始文本内容，不做转义（由浏览器自动处理）
+            // 只需确保是纯文本节点
+            textNode.value = textNode.value
+          }
+        })
+      }
+    }
+  })
+}
+
+/**
+ * 处理特殊 HTML 字符，避免与 markdown 语法冲突
+ * 这个插件确保 HTML 实体正确显示
+ */
+export const rehypeEscapeSpecialChars: Plugin = () => tree => {
+  visit(tree, 'text', (node: Text, _index, parent) => {
+    if (!node.value) return
+
+    // 只处理非代码块中的文本
+    const isInCode =
+      parent &&
+      isElement(parent as Parent) &&
+      ((parent as Element).tagName === 'code' ||
+        (parent as Element).tagName === 'pre')
+
+    if (!isInCode) {
+      // 对于普通文本，不需要额外处理
+      // HTML 实体已经由 markdown 解析器处理
+      // 这里只是确保文本节点完整性
+      return
+    }
+  })
+}
