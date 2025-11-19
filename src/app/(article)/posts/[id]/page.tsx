@@ -13,11 +13,22 @@ import { getSummary } from '@/service/summary'
 import { readingTime } from '@/utils'
 
 export const generateStaticParams = async () => {
-  const {
-    search: { nodes },
-  } = await queryAllPosts()
-  return nodes.map(node => ({ id: `${node.number}` }))
+  try {
+    const {
+      search: { nodes },
+    } = await queryAllPosts()
+    return nodes.map(node => ({ id: `${node.number}` }))
+  } catch (error) {
+    // Handle rate limit errors gracefully during build
+    console.warn('Failed to fetch posts for static generation:', error)
+    // Return empty array to allow build to continue
+    // Pages will be generated on-demand instead
+    return []
+  }
 }
+
+// Enable dynamic rendering for pages not pre-built at build time
+export const dynamicParams = true
 
 export const generateMetadata = async ({ params }: PageProps) => {
   const { id } = params
@@ -74,7 +85,7 @@ export default async function Page({ params }: PageProps) {
             </span>
           </div>
         </header>
-        <article className='prose prose-slate max-w-none dark:prose-invert prose-code:break-words prose-img:rounded dark:prose-img:brightness-75 max-xl:col-start-2'>
+        <article className='prose prose-slate max-w-none text-justify dark:prose-invert prose-code:break-words prose-img:rounded dark:prose-img:brightness-75 max-xl:col-start-2'>
           <Markdown source={body!} />
           <GiscusScript number={number} repo={`${repoOwner}/${repoName}`} />
         </article>
@@ -84,8 +95,8 @@ export default async function Page({ params }: PageProps) {
           </h2>
           <TOC
             markdown={body!}
-            className='space-y-3 dark:text-color-4'
-            ul='pl-6 space-y-2'
+            className='space-y-3 dark:text-color-4 [&>ul]:block [&_ul]:hidden'
+            ul='space-y-2'
             a='data-[active=true]:text-brand dark:data-[active=true]:text-white block text-sm mb-2'
           />
         </aside>

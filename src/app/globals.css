@@ -88,21 +88,94 @@
   }
 }
 
-.shiki {
-  .line {
-    display: block;
-  }
+/* Shiki 代码块统一样式 - 强制所有语言使用相同主题 */
+.shiki,
+pre.shiki,
+code.shiki {
+  @apply overflow-x-auto rounded-lg;
+  @apply border border-slate-200 dark:border-slate-800;
+  @apply my-4;
+  @apply font-mono text-sm;
+  background-color: rgb(248 250 252) !important;
+  padding: 1rem !important;
+}
+
+:root.dark .shiki,
+:root.dark pre.shiki,
+:root.dark code.shiki {
+  background-color: rgb(15 23 42) !important;
+}
+
+/* 强制所有 shiki 内部元素背景色一致，覆盖语言特定样式 */
+.shiki *,
+.shiki span,
+.shiki code,
+.shiki .line,
+.shiki pre {
+  background-color: transparent !important;
+  background: none !important;
+}
+
+/* 移除所有可能的背景色和边框 */
+.shiki span::before,
+.shiki span::after,
+.shiki code::before,
+.shiki code::after {
+  display: none !important;
+  background: none !important;
+}
+
+.shiki .line {
+  display: block;
+  line-height: 1.6;
+  background: none !important;
+}
+
+/* 统一代码块容器样式，移除额外的包装器样式差异 */
+.shiki pre,
+.shiki code {
+  margin: 0 !important;
+  padding: 0 !important;
+  background: transparent !important;
+  border: none !important;
+}
+
+/* 隐藏代码块中的复选框、按钮等交互元素 */
+.shiki input[type='checkbox'],
+.shiki button,
+.shiki .copy-button,
+.shiki [role='button'] {
+  display: none !important;
 }
 
 /* 行内代码样式 */
 .inline-code {
-  @apply rounded px-1.5 py-0.5 text-sm font-mono;
+  @apply rounded px-1.5 py-0.5 font-mono text-sm;
   @apply bg-slate-100 text-slate-800;
   @apply dark:bg-slate-800 dark:text-slate-200;
   @apply border border-slate-200 dark:border-slate-700;
   font-size: 0.875em;
   white-space: pre-wrap;
   word-break: break-word;
+}
+
+/* 隐藏行内代码的前后反引号（如果作为文本内容存在）*/
+.inline-code::before,
+.inline-code::after {
+  content: none !important;
+}
+
+/* 行内代码在不同主题下的颜色统一 */
+:root .inline-code {
+  background-color: rgb(241 245 249);
+  color: rgb(30 41 59);
+  border-color: rgb(226 232 240);
+}
+
+:root.dark .inline-code {
+  background-color: rgb(30 41 59);
+  color: rgb(226 232 240);
+  border-color: rgb(51 65 85);
 }
 
 /* 确保行内代码不会与其他元素样式冲突 */
@@ -127,21 +200,21 @@ td .inline-code {
   .prose table {
     @apply w-full border-collapse;
   }
-  
+
   .prose th {
-    @apply bg-slate-50 dark:bg-slate-800 font-semibold;
+    @apply bg-slate-50 font-semibold dark:bg-slate-800;
   }
-  
+
   .prose td,
   .prose th {
-    @apply border border-slate-200 dark:border-slate-700 px-4 py-2;
+    @apply border border-slate-200 px-4 py-2 dark:border-slate-700;
   }
-  
+
   /* 任务列表样式 */
   .prose input[type='checkbox'] {
     @apply mr-2;
   }
-  
+
   /* 删除线样式 */
   .prose del {
     @apply text-slate-400 dark:text-slate-600;

@@ -95,12 +95,24 @@ export const rehypeEnhanceInlineCode: Plugin = () => tree => {
           className: [...classArray, 'inline-code'],
         }
 
-        // 处理代码内容中的特殊字符，确保正确显示
+        // 处理代码内容，移除多余的反引号和清理文本
         visit(node, 'text', (textNode: Text) => {
           if (textNode.value) {
-            // 保留原始文本内容，不做转义（由浏览器自动处理）
-            // 只需确保是纯文本节点
-            textNode.value = textNode.value
+            // 移除开头和结尾的反引号（如果存在）
+            let value = textNode.value
+
+            // 移除所有开头的反引号和空格
+            value = value.replace(/^[`\s]+/, '')
+
+            // 移除所有结尾的反引号和空格
+            value = value.replace(/[`\s]+$/, '')
+
+            // 如果整个值就是反引号，清空它
+            if (value === '`' || value === '``' || value === '```') {
+              value = ''
+            }
+
+            textNode.value = value
           }
         })
       }
