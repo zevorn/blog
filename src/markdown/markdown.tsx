@@ -1,13 +1,14 @@
 import rehypeShiki, { type RehypeShikiOptions } from '@shikijs/rehype'
-import {
-  transformerNotationDiff,
-  transformerNotationHighlight,
-  transformerNotationFocus,
-  transformerNotationErrorLevel,
-  // transformerMetaHighlight,     // 移除：导致无语言类型代码块显示元数据
-  // transformerMetaWordHighlight, // 移除：导致无语言类型代码块显示元数据
-  transformerRemoveLineBreak,
-} from '@shikijs/transformers'
+// 暂时禁用所有 transformers 以排查代码块渲染问题
+// import {
+//   transformerNotationDiff,
+//   transformerNotationHighlight,
+//   transformerNotationFocus,
+//   transformerNotationErrorLevel,
+//   transformerMetaHighlight,
+//   transformerMetaWordHighlight,
+//   transformerRemoveLineBreak,
+// } from '@shikijs/transformers'
 import { transformerTwoslash } from '@shikijs/twoslash'
 import rehypeAutolinkHeadings from 'rehype-autolink-headings'
 import { rehypeDefaultCodeLang } from 'rehype-default-code-lang'
@@ -69,15 +70,16 @@ export async function Markdown(props: MarkdownProps) {
               dark: 'github-dark',
             },
             defaultColor: false,
-            // 移除可能导致元数据渲染的 transformers
+            // 最小化 transformers，只保留必要的功能
             transformers: [
-              transformerNotationDiff(),
-              transformerNotationHighlight(),
-              transformerNotationFocus(),
-              transformerNotationErrorLevel(),
-              // transformerMetaHighlight(),      // 注释掉：可能导致元数据显示
-              // transformerMetaWordHighlight(),  // 注释掉：可能导致元数据显示
-              transformerRemoveLineBreak(),
+              // 注释掉所有可能导致特殊渲染的 transformers
+              // transformerNotationDiff(),
+              // transformerNotationHighlight(),
+              // transformerNotationFocus(),
+              // transformerNotationErrorLevel(),
+              // transformerMetaHighlight(),
+              // transformerMetaWordHighlight(),
+              // transformerRemoveLineBreak(),
               transformerTwoslash({
                 explicitTrigger: true,
               }),
