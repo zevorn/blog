@@ -29,6 +29,27 @@ const config: Config = {
         'surface-3': 'var(--surface-3)',
         'surface-4': 'var(--surface-4)',
       },
+      typography: {
+        DEFAULT: {
+          css: {
+            'pre': {
+              lineHeight: '0.8',
+            },
+            'pre code': {
+              lineHeight: '0.8',
+            },
+            'code': {
+              lineHeight: '0.8',
+            },
+            'code::before': {
+              content: '""',
+            },
+            'code::after': {
+              content: '""',
+            },
+          },
+        },
+      },
       boxShadow: {
         bento: '0 2px 4px rgba(0,0,0,.04)',
       },
