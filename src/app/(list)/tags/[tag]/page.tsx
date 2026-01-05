@@ -7,13 +7,24 @@ interface PageProps {
 }
 
 export async function generateStaticParams() {
-  const { repository } = await queryAllLabels()
-  const {
-    labels: { nodes },
-  } = repository!
+  try {
+    const { repository } = await queryAllLabels()
+    const {
+      labels: { nodes },
+    } = repository!
 
-  return nodes.map(node => ({ tag: encodeURIComponent(node.name) }))
+    return nodes.map(node => ({ tag: encodeURIComponent(node.name) }))
+  } catch (error) {
+    // Handle rate limit errors gracefully during build
+    console.warn('Failed to fetch labels for static generation:', error)
+    // Return empty array to allow build to continue
+    // Pages will be generated on-demand instead
+    return []
+  }
 }
+
+// Enable dynamic rendering for pages not pre-built at build time
+export const dynamicParams = true
 
 export function generateMetadata({ params }: PageProps) {
   const { tag } = params
