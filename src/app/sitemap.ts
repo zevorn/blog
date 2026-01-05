@@ -28,10 +28,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   try {
     const allTags = await queryAllLabels()
-    tagEntries = allTags.repository?.labels.nodes.map(label => ({
-      url: url(`/tags/${label.name}`),
-      priority: 0.6,
-    })) ?? []
+    tagEntries =
+      allTags.repository?.labels.nodes.map(label => ({
+        url: url(`/tags/${label.name}`),
+        priority: 0.6,
+      })) ?? []
   } catch (error) {
     console.warn('Failed to fetch labels for sitemap:', error)
   }
