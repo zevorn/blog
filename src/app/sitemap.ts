@@ -12,8 +12,29 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   const [, ...restStaticPage] = staticPage
 
-  const allPosts = await queryAllPosts()
-  const allTags = await queryAllLabels()
+  // Fetch data with error handling to prevent build failures
+  let postEntries: { url: string; priority: number }[] = []
+  let tagEntries: { url: string; priority: number }[] = []
+
+  try {
+    const allPosts = await queryAllPosts()
+    postEntries = allPosts.search.nodes.map(post => ({
+      url: url(`/posts/${post.number}`),
+      priority: 1,
+    }))
+  } catch (error) {
+    console.warn('Failed to fetch posts for sitemap:', error)
+  }
+
+  try {
+    const allTags = await queryAllLabels()
+    tagEntries = allTags.repository?.labels.nodes.map(label => ({
+      url: url(`/tags/${label.name}`),
+      priority: 0.6,
+    })) ?? []
+  } catch (error) {
+    console.warn('Failed to fetch labels for sitemap:', error)
+  }
 
   return [
     // Home Page
@@ -27,15 +48,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.6,
     },
     // Posts
-    ...allPosts.search.nodes.map(post => ({
-      url: url(`/posts/${post.number}`),
-      priority: 1,
-    })),
+    ...postEntries,
     // Tags
-    ...(allTags.repository?.labels.nodes.map(label => ({
-      url: url(`/tags/${label.name}`),
-      priority: 0.6,
-    })) ?? []),
+    ...tagEntries,
     // Resume
     {
       url: url('resume'),

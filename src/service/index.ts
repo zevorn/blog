@@ -17,7 +17,14 @@ const client = new Client({
   owner: repoOwner,
 })
 
-export const queryProfileREADME = cache(async () => {
+// 缓存配置：1小时缓存，减少 GitHub API 调用频率
+const CACHE_CONFIG = {
+  revalidate: 3600, // 1小时
+  tags: ['github-data'],
+}
+
+export const queryProfileREADME = cache(
+  async () => {
   const [masterResult, mainResult] = await Promise.allSettled([
     graphql<RepositoryFile>(
       `
@@ -76,47 +83,67 @@ export const queryProfileREADME = cache(async () => {
       },
     },
   }
-})
+},
+  ['profile-readme'],
+  CACHE_CONFIG
+)
 
-export const queryPinnedItems = cache(() =>
-  graphql<PinnedItems>(
-    `
-      query queryPinnedItems($owner: String!) {
-        user(login: $owner) {
-          pinnedItems(first: 6, types: REPOSITORY) {
-            nodes {
-              ... on Repository {
-                name
-                url
-                description
-                homepageUrl
-                visibility
-                stargazerCount
-                forkCount
-                languages(first: 1, orderBy: { field: SIZE, direction: DESC }) {
-                  nodes {
-                    name
-                    color
+export const queryPinnedItems = cache(
+  () =>
+    graphql<PinnedItems>(
+      `
+        query queryPinnedItems($owner: String!) {
+          user(login: $owner) {
+            pinnedItems(first: 6, types: REPOSITORY) {
+              nodes {
+                ... on Repository {
+                  name
+                  url
+                  description
+                  homepageUrl
+                  visibility
+                  stargazerCount
+                  forkCount
+                  languages(first: 1, orderBy: { field: SIZE, direction: DESC }) {
+                    nodes {
+                      name
+                      color
+                    }
                   }
                 }
               }
             }
           }
         }
-      }
-    `,
-    {
-      owner: repoOwner,
-    },
-  ),
+      `,
+      {
+        owner: repoOwner,
+      },
+    ),
+  ['pinned-items'],
+  CACHE_CONFIG
 )
 
-export const queryAllLabels = cache(() => client.queryLabels())
+export const queryAllLabels = cache(
+  () => client.queryLabels(),
+  ['all-labels'],
+  CACHE_CONFIG
+)
 
-export const queryAllPosts = cache(() => client.search({ bodyText: true }))
+export const queryAllPosts = cache(
+  () => client.search({ bodyText: true }),
+  ['all-posts'],
+  CACHE_CONFIG
+)
 
-export const queryByLabel = cache((label: string) => client.search({ label }))
+export const queryByLabel = cache(
+  (label: string) => client.search({ label }),
+  ['posts-by-label'],
+  CACHE_CONFIG
+)
 
-export const queryByNumber = cache((number: number) =>
-  client.queryByNumber({ number, body: true, bodyText: true }),
+export const queryByNumber = cache(
+  (number: number) => client.queryByNumber({ number, body: true, bodyText: true }),
+  ['post-by-number'],
+  CACHE_CONFIG
 )
