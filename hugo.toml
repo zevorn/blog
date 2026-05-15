@@ -1,4 +1,4 @@
-baseURL = "https://zevorn.cn/"
+baseURL = "https://zevorn.github.io/blog/"
 title = "zevorn.blog"
 locale = "zh-cn"
 defaultContentLanguage = "zh-cn"
@@ -34,7 +34,7 @@ title = "zevorn.blog"
 description = "Notes on virtualization, QEMU, RISC-V, LLVM, systems programming, and AI workflows."
 keywords = ["QEMU", "RISC-V", "LLVM", "virtualization", "systems programming", "AI workflow"]
 author = "zevorn"
-images = ["/avatar.webp"]
+images = ["avatar.webp"]
 DateFormat = "2006-01-02"
 defaultTheme = "auto"
 ShowReadingTime = true
@@ -49,10 +49,10 @@ UseHugoToc = true
 comments = true
 
 [params.assets]
-favicon = "/favicon.ico"
-favicon16x16 = "/icon/favicon-16x16.png"
-favicon32x32 = "/icon/favicon-32x32.png"
-apple_touch_icon = "/icon/apple-touch-icon.png"
+favicon = "favicon.ico"
+favicon16x16 = "icon/favicon-16x16.png"
+favicon32x32 = "icon/favicon-32x32.png"
+apple_touch_icon = "icon/apple-touch-icon.png"
 
 [params.homeInfoParams]
 Title = "zevorn.blog"
