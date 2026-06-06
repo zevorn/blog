@@ -1,5 +1,6 @@
 import { mkdir, readFile, readdir, rm, unlink, writeFile } from 'node:fs/promises'
 import path from 'node:path'
+import { externalPosts } from './external-posts.mjs'
 
 const token = process.env.GITHUB_TOKEN || process.env.GH_TOKEN
 const repository = process.env.BLOG_REPOSITORY || process.env.GITHUB_REPOSITORY || 'zevorn/blog'
@@ -16,6 +17,7 @@ if (!owner || !name) {
 
 const contentDir = path.join(process.cwd(), 'content', 'posts')
 const imageDir = path.join(process.cwd(), 'static', 'images', 'discussions')
+const externalPostDir = path.join(process.cwd(), 'external-posts')
 
 function requestHeaders() {
     const headers = {
@@ -216,9 +218,55 @@ async function localizeImages(markdown, discussionNumber) {
     return output
 }
 
+async function readExternalPost(discussionNumber) {
+    try {
+        const content = await readFile(path.join(externalPostDir, `${discussionNumber}.md`), 'utf8')
+        const trimmed = content.trim()
+
+        return trimmed ? trimmed : null
+    } catch (error) {
+        if (error.code === 'ENOENT') {
+            return null
+        }
+
+        throw error
+    }
+}
+
+function externalPostFilename(post) {
+    return post.body_file || `${post.number ?? post.id}.md`
+}
+
+async function readStandaloneExternalPost(post) {
+    const content = await readFile(path.join(externalPostDir, externalPostFilename(post)), 'utf8')
+    const trimmed = content.trim()
+
+    if (!trimmed) {
+        throw new Error(`External post body is empty: ${externalPostFilename(post)}`)
+    }
+
+    return trimmed
+}
+
+function mergeExternalPost(sourceBody, externalPost) {
+    if (!externalPost) {
+        return sourceBody
+    }
+
+    const normalizedSourceBody = sourceBody
+        .replaceAll('This is an index for an externally published article; the original text remains authoritative. If we later want to preserve it in the blog body, it can be imported from the original Markdown or the author manuscript.', 'This is an index for an externally published article; the full text has been imported below.')
+        .replaceAll('This is an index for an externally published article; the original text remains authoritative.', 'This is an index for an externally published article; the full text has been imported below.')
+        .replaceAll('This is an off-site course index; the original article and Bilibili replay remain authoritative.', 'This is the off-site course index; the main text and course replay have already been imported below.')
+
+    if (normalizedSourceBody.trim().includes(externalPost.trim())) {
+        return `${normalizedSourceBody.trim()}\n`
+    }
+
+    return `${normalizedSourceBody.trim()}\n\n---\n\n## Main Text\n\n${externalPost.trim()}\n`
+}
+
 async function cleanGeneratedContent() {
     await mkdir(contentDir, { recursive: true })
-    await rm(imageDir, { recursive: true, force: true })
 
     for (const entry of await readdir(contentDir, { withFileTypes: true })) {
         if (entry.isFile() && entry.name.endsWith('.md') && entry.name !== '_index.md') {
@@ -262,20 +310,59 @@ function frontmatterForDiscussion(discussion, tags, summary) {
     ].join('\n')
 }
 
+function frontmatterForStandaloneExternalPost(post, summary) {
+    const slug = post.slug || post.id
+    const date = post.date || new Date().toISOString()
+    const tags = post.tags || ['external']
+    const categories = post.categories || ['blog']
+
+    return [
+        '---',
+        `title: ${yamlString(post.title)}`,
+        `date: ${yamlString(date)}`,
+        `lastmod: ${yamlString(post.lastmod || date)}`,
+        `slug: ${yamlString(slug)}`,
+        'draft: false',
+        `tags: ${yamlArray(tags)}`,
+        `categories: ${yamlArray(categories)}`,
+        `summary: ${yamlString(summary)}`,
+        `source_url: ${yamlString(post.url)}`,
+        `source_name: ${yamlString(post.source_name || '')}`,
+        '---',
+        '',
+    ].join('\n')
+}
+
 async function writeDiscussion(discussion) {
     const tags = discussion.labels
         .map(label => normalizeLabel(label.name))
         .filter(Boolean)
 
     const sourceBody = discussion.body.replace(/\r\n?/g, '\n')
-    const summary = stripMarkdown(sourceBody).slice(0, 180)
-    const body = await localizeImages(sourceBody, discussion.number)
+    const externalPost = await readExternalPost(discussion.number)
+    const mergedBody = mergeExternalPost(sourceBody, externalPost)
+    const summary = stripMarkdown(mergedBody).slice(0, 180)
+
+    const body = await localizeImages(mergedBody, discussion.number)
     const markdown = `${frontmatterForDiscussion(discussion, tags, summary)}${body.trim()}\n`
     const filename = path.join(contentDir, `${discussion.number}.md`)
 
-    if (shouldDownloadImages) {
-        await rm(path.join(imageDir, String(discussion.number)), { recursive: true, force: true })
+
+    await writeFile(filename, markdown)
+}
+
+async function writeStandaloneExternalPost(post) {
+    if (!post.id) {
+        throw new Error('Standalone external posts must define an id.')
     }
+
+    const sourceBody = await readStandaloneExternalPost(post)
+    const summary = stripMarkdown(sourceBody).slice(0, 180)
+
+    const body = await localizeImages(sourceBody, post.id)
+    const markdown = `${frontmatterForStandaloneExternalPost(post, summary)}${body.trim()}\n`
+    const filename = path.join(contentDir, `${post.id}.md`)
+
 
     await writeFile(filename, markdown)
 }
@@ -331,7 +418,14 @@ async function exportAllDiscussions() {
         await writeDiscussion(discussion)
     }
 
+    const standaloneExternalPosts = externalPosts.filter(post => post.standalone)
+
+    for (const post of standaloneExternalPosts) {
+        await writeStandaloneExternalPost(post)
+    }
+
     console.log(`Exported ${discussions.length} discussions from ${repository}.`)
+    console.log(`Exported ${standaloneExternalPosts.length} standalone external posts.`)
 }
 
 if (!(await exportFromEventIfPossible())) {

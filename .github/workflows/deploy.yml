@@ -9,9 +9,19 @@ on:
       - created
       - edited
       - deleted
+      - transferred
+      - pinned
+      - unpinned
       - labeled
       - unlabeled
+      - locked
+      - unlocked
       - category_changed
+      - answered
+      - unanswered
+  repository_dispatch:
+    types:
+      - discussions-updated
   label:
     types:
       - created
@@ -69,6 +79,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           BLOG_REPOSITORY: zevorn/blog
+          BLOG_DOWNLOAD_IMAGES: "true"
         run: npm run sync:discussions
 
       - name: Build Hugo site

@@ -1,0 +1,55 @@
+export const externalPosts = [
+    {
+        number: 41,
+        kind: 'tinylab',
+        url: 'https://tinylab.org/qemu-drop-ignore_memory_transaction_failures/',
+    },
+    {
+        number: 42,
+        kind: 'ruyisdk',
+        topic: 919,
+        url: 'https://ruyisdk.cn/t/topic/919',
+    },
+    {
+        number: 43,
+        kind: 'ruyisdk',
+        topic: 964,
+        url: 'https://ruyisdk.cn/t/topic/964',
+    },
+    {
+        number: 44,
+        kind: 'ruyisdk',
+        topic: 1275,
+        url: 'https://ruyisdk.cn/t/topic/1275',
+    },
+    {
+        number: 45,
+        kind: 'ruyisdk',
+        topic: 1836,
+        url: 'https://ruyisdk.cn/t/topic/1836',
+    },
+    {
+        number: 46,
+        kind: 'ruyisdk',
+        topic: 1913,
+        url: 'https://ruyisdk.cn/t/topic/1913',
+    },
+    {
+        number: 47,
+        kind: 'ruyisdk',
+        topic: 1863,
+        url: 'https://ruyisdk.cn/t/topic/1863',
+    },
+    {
+        number: 48,
+        id: 'gtoc-triton-riscv-cpu',
+        kind: 'wechat',
+        body_file: 'gtoc-triton-riscv-cpu.md',
+        url: 'https://mp.weixin.qq.com/s/_nGY8SKwLQl79uOjQe9WNA',
+        title: 'From Zero to Delivery: Best Practices for Agent-Collaborative Triton RISC-V CPU Backend Development',
+        date: '2026-04-30T14:27:09Z',
+        tags: ['ai-workflow', 'agent', 'triton', 'riscv', 'qemu', 'rvv', 'compiler', 'gtoc', 'wechat', 'external'],
+        categories: ['blog'],
+        source_name: 'GTOC',
+    },
+]

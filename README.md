@@ -25,6 +25,17 @@ To copy remote discussion images into `static/images/discussions`, run:
 BLOG_DOWNLOAD_IMAGES=true npm run sync:discussions
 ```
 
+Some posts are originally published on external sites. Their source definitions
+live in `scripts/external-posts.mjs`; imported Markdown bodies are stored in
+`external-posts/`. If an external post is tied to a discussion, the export script
+appends that body below the discussion text. Standalone external posts are
+generated directly under `content/posts/`. Known public external sources can be
+refreshed with:
+
+```bash
+npm run import:external-posts
+```
+
 Build production output:
 
 ```bash

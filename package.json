@@ -3,6 +3,8 @@
     "private": true,
     "type": "module",
     "scripts": {
+        "import:external-posts": "node scripts/import-external-posts.mjs",
+        "labels:discussions": "node scripts/update-discussion-labels.mjs",
         "sync:discussions": "node scripts/export-discussions.mjs",
         "build": "npm run sync:discussions && hugo --gc --minify"
     },
