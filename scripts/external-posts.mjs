@@ -35,12 +35,6 @@ export const externalPosts = [
         url: 'https://ruyisdk.cn/t/topic/1913',
     },
     {
-        number: 47,
-        kind: 'ruyisdk',
-        topic: 1863,
-        url: 'https://ruyisdk.cn/t/topic/1863',
-    },
-    {
         number: 48,
         id: 'gtoc-triton-riscv-cpu',
         kind: 'wechat',
