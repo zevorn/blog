@@ -81,10 +81,16 @@ url = "/tags/"
 weight = 30
 
 [[menu.main]]
+identifier = "about"
+name = "About"
+url = "/about/"
+weight = 40
+
+[[menu.main]]
 identifier = "search"
 name = "Search"
 url = "/search/"
-weight = 40
+weight = 50
 
 [module]
     [[module.imports]]
